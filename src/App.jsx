@@ -1,16 +1,20 @@
-import { useState } from 'react'
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Signin from './Signin'
+import Signup from './Signup'
+import { BrowserRouter, Routes, Route} from 'react-router-dom'
 
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div>
-      <Signin />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/Signin' element={<Signin />}></Route>
+        <Route path='/Signup' element={<Signup />}></Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
