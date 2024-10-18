@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Signin from './Signin'
 import Signup from './Signup'
+import Home from './Home'
+import ProtectedRoute from "./ProtectedRoutes";
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 
 
@@ -13,6 +15,7 @@ function App() {
       <Routes>
         <Route path='/Signin' element={<Signin />}></Route>
         <Route path='/Signup' element={<Signup />}></Route>
+        <Route path='/Home' element={<ProtectedRoute><Home /></ProtectedRoute>}></Route>
       </Routes>
     </BrowserRouter>
   )

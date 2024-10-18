@@ -196,4 +196,33 @@ body{
 .Signup-Container form input[type="submit"]:active {
   opacity: 0.8;
 }
+/* Signin.css */
+#banner {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  transition: opacity 0.5s ease, top 0.5s ease;
+  z-index: 1000;
+}
 
+.banner-error {
+  background-color: red;
+}
+
+.banner-success {
+  background-color: green;
+}
+
+.hidden {
+  top: -50px; /* Move out of view */
+  opacity: 0;
+}
+
+.visible {
+  top: 0; /* Slide into view */
+  opacity: 1;
+}

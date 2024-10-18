@@ -6,12 +6,23 @@ import { setToken } from './slices/authSlice'; // Adjust the import path
 import axios from 'axios';
 import './styles/Signin.css';
 
+
 function Signin() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [bannerMessage, setBannerMessage] = useState(''); // Manage banner message
+  const [bannerClass, setBannerClass] = useState('hidden'); // Manage banner visibility
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const showBanner = (message, isSuccess = false) => {
+    setBannerMessage(message);
+    setBannerClass(isSuccess ? 'visible banner-success' : 'visible banner-error');
+
+    // Hide the banner after 3 seconds
+    setTimeout(() => setBannerClass('hidden'), 3000);
+  };
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -30,10 +41,12 @@ function Signin() {
         // Dispatch actions to update the Redux store
         dispatch(setToken({token}));
         dispatch(setUser({
-          userId: user._id || '',  // Fallback if user._id is not present
-          username: user.name || '', // Fallback if user.name is not present
-          email: user.email || '', // Fallback if user.email is not present
+          userId: user._id || '',  
+          username: user.name || '', 
+          email: user.email || '', 
         }));
+
+        showBanner('Login Successfull!', true);
 
         // Redirect the user to the home page
         navigate('/home');
@@ -41,16 +54,22 @@ function Signin() {
         // Handle the case where user is undefined
         console.error("User data is not present in the response");
         setErrorMessage("User data is not available. Please try again.");
+        showBanner('User data is not available. Please try again.');
       }
     } else {
       console.error("Sign-in failed:", result.data.message);
       setErrorMessage("Sign-in failed: " + result.data.message);
+      showBanner(`Sign-in failed: ${result.data.message}`);
     }
   } catch (err) {
     console.error("Error during sign-in:", err);
     setErrorMessage("An error occurred during sign-in. Please try again.");
+    showBanner('An error occurred during sign-in. Please try again.');
   }
 };
+
+
+
 
   return (
     <>
@@ -62,7 +81,7 @@ function Signin() {
         <span className="borderLine"></span>
         <form onSubmit={handleSubmit}>
           <h2>Sign In</h2>
-          {errorMessage && <div className="error-message">{errorMessage}</div>} {/* Display error message */}
+          {errorMessage && <div className="error-message">{errorMessage}</div>} 
           <div className="inputBox">
             <input 
               type="text" 
@@ -88,8 +107,11 @@ function Signin() {
             <Link to="/Signup">Create An Account?</Link>
           </div>
           <input className="login-button" type="submit" value="Login" />
+          
         </form>
+        
       </div>
+      <div id="banner" className="hidden"></div>
     </>
   );
 }
