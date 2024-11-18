@@ -1,20 +1,26 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors'); // Import CORS
-require('dotenv').config(); 
-const UserModel = require('./models/User');
-const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
-const jwt = require('jsonwebtoken');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors'; // Import CORS
+import dotenv from 'dotenv';
+import UserModel from './models/User.js'; // Add '.js' extensions
+import bcrypt from 'bcrypt'; // Import bcrypt for password hashing
+import jwt from 'jsonwebtoken';
+import postRoutes from './post.js'; // Add '.js' extension for the post module
 
-
-
+dotenv.config();
 
 const app = express();
 
-// Use CORS middleware to allow cross-origin requests
-app.use(cors());
-app.use(express.json()); // Enable parsing of JSON requests
+// CORS configuration to allow requests from your frontend (http://localhost:5173)
+const corsOptions = {
+  origin: 'http://localhost:5173',  // Allow frontend to communicate with backend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow specific HTTP methods
+};
 
+// Use CORS middleware with custom options
+app.use(cors(corsOptions));
+
+app.use(express.json()); // Enable parsing of JSON requests
 
 const mongoURI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -62,12 +68,12 @@ app.post('/Signin', async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).json({ message: "Internal Server Error", error: err.message, });
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
   }
 });
 
 
-const authenticationToken= (req, res, next) => {
+const authenticationToken = (req, res, next) => {
   const token = req.headers['authorization']?.split(' ')[1];
     if (!token) return res.status(401).json({ message: 'Access Denied' });
     
@@ -104,7 +110,7 @@ app.post('/Signup', async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email
-        },
+      },
       token,
     });
   } catch (err) {
@@ -112,6 +118,8 @@ app.post('/Signup', async (req, res) => {
   }
 });
 
+// Post API route for posting
+app.use('/post', postRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5001;

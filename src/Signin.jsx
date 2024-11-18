@@ -37,6 +37,7 @@ function Signin() {
       if (user) {
         // Store the token in localStorage
         localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
 
         // Dispatch actions to update the Redux store
         dispatch(setToken({token}));
