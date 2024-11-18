@@ -42,6 +42,7 @@
 .nav-links a:hover {
   background-color: #555;
 }
+
 .icon-size {
   width: 30px;
   height: 30px;
@@ -76,4 +77,25 @@
   font-family: "Nunito Sans";
   font-weight: 480;
   margin-bottom: 0px;
+}
+
+.create-post-button {
+  color: white;
+  text-decoration: none;
+  font-size: 26px;
+  width: 100%;
+  text-align: start;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: "Nunito Sans";
+}
+
+.create-post-button:hover {
+  background-color: #555;
 }

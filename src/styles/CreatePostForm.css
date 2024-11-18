@@ -1,0 +1,133 @@
+/* In src/styles/CreatePostForm.css */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #333 !important;
+  color: #333;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  font-family: "Nunito Sans";
+}
+
+.create-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.create-post-form h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  background-image: linear-gradient(220.55deg, #FFC328 0%, #E20000 100%);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.create-post-form input,
+.create-post-form textarea {
+  background-color: #444;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
+  color: white;
+  font-family: "Nunito Sans";
+  font-size: 16px;
+}
+
+.create-post-form input:focus,
+.create-post-form textarea:focus {
+  outline: 2px solid #FF4C29;
+}
+
+.create-post-form textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.form-buttons button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: "Nunito Sans";
+  transition: background-color 0.3s;
+}
+
+.form-buttons button[type="submit"] {
+  background-color: #FF4C29;
+  color: white;
+  flex: 1;
+}
+
+.form-buttons button[type="submit"]:hover {
+  background-color: #ff6242;
+}
+
+.form-buttons button[type="button"] {
+  background-color: #555;
+  color: white;
+  flex: 1;
+}
+
+.form-buttons button[type="button"]:hover {
+  background-color: #666;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.close-button:hover {
+  background-color: #555;
+}
+
+.error {
+  color: #ff4c4c;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Add placeholder styling */
+.create-post-form input::placeholder,
+.create-post-form textarea::placeholder {
+  color: #888;
+}
