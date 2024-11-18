@@ -1,49 +1,47 @@
 import express from 'express';
-import upload from './upload.js'; // Don't forget to add the '.js' extension
-import postModel from './models/Post.js'; // Similarly, add the '.js' extension
+import upload from './upload.js'; // Ensure the correct path and '.js' extension
+import postModel from './models/Post.js'; // Ensure the correct path and '.js' extension
 
 const router = express.Router();
 
 // Route to create a post with media
 router.post('/', upload.single('media'), async (req, res) => {
+  // Log incoming request details for debugging
+  console.log('Request body:', req.body); // Fields parsed from the form
+  console.log('Request file:', req.file); // Uploaded file information
+
   const { title, content, user } = req.body;
 
-  // Log the incoming request body for debugging
-  console.log('Received request body:', req.body);
-  console.log('Received file:', req.file); // Log file details if uploaded
-
-  // Check if required fields are missing
+  // Validate required fields
   if (!title || !content || !user) {
+    console.error('Validation error: Missing required fields.');
     return res.status(400).json({ message: 'Missing required fields: title, content, or user.' });
   }
 
   try {
-    // Ensure file exists before accessing location
+    // Construct the media URL if a file is uploaded
     const mediaUrl = req.file ? req.file.location : null;
-
-    // Log the media URL being used
     console.log('Media URL:', mediaUrl);
 
-    // Create a new post with the uploaded media URL (if present)
+    // Create a new post with the provided data
     const post = await postModel.create({
       title,
       content,
       user,
-      mediaUrl,  // Only add the media URL if a file was uploaded
+      mediaUrl, // Include the media URL only if a file was uploaded
     });
 
-    // Save the new post
-    await post.save();
+    console.log('Post created:', post);
 
     // Respond with the created post
     res.status(201).json({
       message: 'Post created successfully!',
-      post: post,  
+      post,
     });
   } catch (error) {
-    // Log error details to aid debugging
+    // Log error details for debugging
     console.error('Error creating post:', error.message);
-    res.status(500).json({ message: 'Error creating post.' });
+    res.status(500).json({ message: 'Error creating post.', error: error.message });
   }
 });
 

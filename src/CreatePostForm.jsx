@@ -3,53 +3,56 @@ import axios from 'axios';
 import './styles/CreatePostForm.css';
 
 function CreatePostForm({ addPost, onClose }) {
-  const [formData, setFormData] = useState({ title: '', content: '', media: '' });
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [media, setMedia] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Retrieve user data from localStorage
   const user = JSON.parse(localStorage.getItem('user'));
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const handleFileChange = (e) => {
-    setFormData({ ...formData, media: e.target.files[0] });
+    setMedia(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
-    // Check if user information is available in localStorage
+  
     if (!user || !user._id) {
       setError('User information is missing.');
       setLoading(false);
       return;
     }
-
+  
     const formDataToSend = new FormData();
-    formDataToSend.append('title', formData.title);
-    formDataToSend.append('content', formData.content);
-
-    // Append the user ID from localStorage to FormData
-    formDataToSend.append('user', user._id);  // Assuming user has '_id' in localStorage
-
-    if (formData.media) {
-      formDataToSend.append('media', formData.media);
+    formDataToSend.append('title', title);
+    formDataToSend.append('content', content);
+    formDataToSend.append('user', user._id);
+  
+    if (media) {
+      formDataToSend.append('media', media);
     }
-
+  
+    // Log the form data for debugging
+    console.log("Form Data to Send:");
+    for (const pair of formDataToSend.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+  
     try {
       const result = await axios.post('http://localhost:5001/post', formDataToSend, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,  // Token for authorization
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
         },
       });
-      addPost(result.data);  // Assuming addPost function adds the post to the list
-      onClose();  // Close the form after submitting
+  
+      console.log("API Response:", result.data); // Log the response for debugging
+      addPost(result.data);
+      onClose();
     } catch (error) {
       console.error('Error creating post:', error.response ? error.response.data : error.message);
       setError('Failed to create post');
@@ -57,6 +60,7 @@ function CreatePostForm({ addPost, onClose }) {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="popup-overlay" onClick={(e) => {
@@ -67,21 +71,19 @@ function CreatePostForm({ addPost, onClose }) {
         <form onSubmit={handleSubmit} className="create-post-form">
           <h2>Create New Post</h2>
           <input
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter your title"
             required
           />
           <textarea
-            name="content"
-            value={formData.content}
-            onChange={handleChange}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             placeholder="What's on your mind?"
             required
           />
           <input
-            name="media"
             type="file"
             onChange={handleFileChange}
             placeholder="Add media (optional)"
