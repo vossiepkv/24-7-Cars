@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt'; // Import bcrypt for password hashing
 import jwt from 'jsonwebtoken';
 import postRoutes from './post.js'; // Add '.js' extension for the post module
 
-dotenv.config();
+dotenv.config({ path: './server/.env' });
 
 const app = express();
 
