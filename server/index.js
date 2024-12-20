@@ -118,8 +118,14 @@ app.post('/Signup', async (req, res) => {
   }
 });
 
+// app.get('/post', (req, res) => {
+//   res.send('Test GET /post endpoint works!');
+// });
+
+
 // Post API route for posting
 app.use('/post', postRoutes);
+
 
 // Start server
 const PORT = process.env.PORT || 5001;

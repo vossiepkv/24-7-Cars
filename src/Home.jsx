@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from './NavBar';
 import CreatePostForm from './CreatePostForm';
 import './styles/Home.css';
+import DisplayPosts from './DisplayPosts';
 
 function Home() {
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -14,6 +15,7 @@ function Home() {
   };
 
   return (
+    <>
     <div className="home-container">
       <NavBar onCreatePostClick={() => setShowCreatePost(true)} />
       
@@ -34,6 +36,9 @@ function Home() {
         </div>
       )}
     </div>
+
+    <DisplayPosts/>
+    </>
   );
 }
 
