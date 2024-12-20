@@ -1,0 +1,51 @@
+.post-container {
+  display: flex;
+  flex-direction: column; /* Arrange items in a vertical column */
+  gap: 20px; /* Space between posts */
+}
+
+.post {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative; /* Allows precise placement of the span */
+  width: 60%; /* Ensure posts take full width */
+  margin-left: 35em;
+}
+
+.post img {
+  width: 80%; /* Make images take up full width of the container */
+  height: 900px; /* Fixed height for images */
+  object-fit: cover; /* Ensures the image fills the box and maintains its aspect ratio */
+  border-radius: 8px;
+}
+
+.post span {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.post p, h2 {
+  padding-top: 10px;
+  color: #fff;
+  text-align: start !important;
+}
+
+.post p {
+  font-size: 20px;
+}
+
+.post h2 {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.post span {
+  color: #666;
+  font-size: 0.9em;
+  text-align: left;
+  display: block; /* Ensures the span takes the full width */
+  margin-top: 10px; /* Adds some space between the content and the date */
+}

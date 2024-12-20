@@ -45,4 +45,14 @@ router.post('/', upload.single('media'), async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  console.log('GET /post endpoint hit'); // Debug log
+  try {
+    const posts = await postModel.find();
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
+  }
+});
+
 export default router;
