@@ -20,7 +20,7 @@ router.post('/', upload.single('media'), async (req, res) => {
 
   try {
     // Construct the media URL if a file is uploaded
-    const mediaUrl = req.file ? req.file.location : null;
+    const mediaUrl = req.file ? req.file.location : null; // Retrieve S3 file URL from `multer-s3`
     console.log('Media URL:', mediaUrl);
 
     // Create a new post with the provided data
@@ -42,6 +42,16 @@ router.post('/', upload.single('media'), async (req, res) => {
     // Log error details for debugging
     console.error('Error creating post:', error.message);
     res.status(500).json({ message: 'Error creating post.', error: error.message });
+  }
+});
+
+router.get('/', async (req, res) => {
+  console.log('GET /post endpoint hit'); // Debug log
+  try {
+    const posts = await postModel.find();
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
   }
 });
 

@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt'; // Import bcrypt for password hashing
 import jwt from 'jsonwebtoken';
 import postRoutes from './post.js'; // Add '.js' extension for the post module
 
-dotenv.config();
+dotenv.config({ path: './server/.env' });
 
 const app = express();
 
@@ -118,8 +118,14 @@ app.post('/Signup', async (req, res) => {
   }
 });
 
+// app.get('/post', (req, res) => {
+//   res.send('Test GET /post endpoint works!');
+// });
+
+
 // Post API route for posting
 app.use('/post', postRoutes);
+
 
 // Start server
 const PORT = process.env.PORT || 5001;
