@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "engines": {
+  "node": ">=18.0.0 <22"
+},
   "dependencies": {
     "@aws-sdk/client-s3": "^3.722.0",
     "@redux-devtools/extension": "^3.3.0",
