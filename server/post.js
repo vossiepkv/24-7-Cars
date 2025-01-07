@@ -28,7 +28,6 @@ router.post('/', upload.single('media'), async (req, res) => {
       title,
       content,
       user,
-      username,
       mediaUrl, // Include the media URL only if a file was uploaded
     });
 
