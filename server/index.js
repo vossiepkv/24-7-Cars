@@ -11,14 +11,10 @@ dotenv.config({ path: './server/.env' });
 
 const app = express();
 
-import { fileURLToPath } from 'url';
-import path from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-console.log('Current file:', __filename);
-console.log('Current directory:', __dirname);
+const allowedOrigins = [
+  'https://24-7-cars.vercel.app',
+  'https://24-7-cars-49l0xjj8t-patrick-vohs-projects.vercel.app' // Add all necessary origins
+];
 
 
 app.use(cors({
@@ -32,6 +28,13 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+app.options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://24-7-cars.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.status(200).end();
+});
 
 
 app.use(express.json()); // Enable parsing of JSON requests
