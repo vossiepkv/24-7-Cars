@@ -1,9 +1,11 @@
+/* Container for all posts */
 .post-container {
   display: flex;
   flex-direction: column; /* Arrange items in a vertical column */
   gap: 20px; /* Space between posts */
 }
 
+/* Individual post styling */
 .post {
   border: 1px solid #ddd;
   padding: 15px;
@@ -11,26 +13,57 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   position: relative; /* Allows precise placement of the span */
-  width: 60%; /* Ensure posts take full width */
-  margin-left: 25em;
+  width: 80%; /* Ensure posts take up full width */
+  margin-left: 15em;
 }
 
+/* Image styling */
 .post img {
-  width: 80%; /* Make images take up full width of the container */
-  height: 900px; /* Fixed height for images */
+  width: 600px; /* Make images take up full width of the container */
+  height: 800px; /* Fixed height for images */
   object-fit: cover; /* Ensures the image fills the box and maintains its aspect ratio */
   border-radius: 8px;
 }
 
-.post span {
-  color: #666;
-  font-size: 0.9em;
+/* Avatar and username container */
+.userbar {
+  display: flex; /* Arrange children (avatar and username) in a row */
+  align-items: center; /* Align avatar and text vertically in the center */
+  gap: 20px !important; /* Space between avatar and username */
 }
 
-.post p, h2, h3 {
+/* Remove bullet points and align avatar and text */
+.userbar li {
+  list-style: none; /* Remove bullet points */
+  display: flex; /* Arrange children horizontally */
+  align-items: center; /* Align content vertically */
+}
+
+/* Avatar styling */
+.avatar {
+  width: 50px; /* Avatar width */
+  height: 50px; /* Avatar height */
+  color: #fff;
+  display: block;
+}
+
+/* Username styling */
+.userbar h3 {
+  color: #fff; /* Username color */
+  margin: 0; /* Remove default margin */
+  font-size: 1.2rem; /* Font size of the username */
+}
+
+/* Content styling */
+.post p, h2 {
   padding-top: 10px;
   color: #fff;
   text-align: start !important;
+}
+
+.post h3 {
+  display: block;
+  color: #fff;
 }
 
 .post p {
@@ -42,6 +75,7 @@
   font-weight: 600;
 }
 
+/* Timestamp styling */
 .post span {
   color: #666;
   font-size: 0.9em;
