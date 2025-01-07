@@ -20,10 +20,10 @@ const DisplayPosts = () => {
         setPosts([]);
       }
     };
-
+  
     fetchPosts();
-    console.log('Fetched posts:', response.data);
   }, []);
+  
 
   return (
     <div>
