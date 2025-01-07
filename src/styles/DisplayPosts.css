@@ -12,6 +12,7 @@
   text-align: center;
   position: relative; /* Allows precise placement of the span */
   width: 60%; /* Ensure posts take full width */
+  margin-left: 25em;
 }
 
 .post img {
