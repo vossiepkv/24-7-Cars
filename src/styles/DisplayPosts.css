@@ -19,8 +19,8 @@
 /* Image styling */
 .post img {
   border: 3px solid #ddd;
-  width: 600px; /* Make images take up full width of the container */
-  height: 800px; /* Fixed height for images */
+  width: 400px; /* Make images take up full width of the container */
+  height: 600px; /* Fixed height for images */
   object-fit: cover; /* Ensures the image fills the box and maintains its aspect ratio */
   border-radius: 8px;
 }
