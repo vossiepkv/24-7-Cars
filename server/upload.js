@@ -1,6 +1,6 @@
 import multer from 'multer';
 import multerS3 from 'multer-s3';
-import s3 from './awsConfig.js';
+import s3Client from './awsConfig.js';
 
 const upload = multer({
   storage: multerS3({
