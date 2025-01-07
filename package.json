@@ -3,8 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+
+  "main": "server/index.js",
   "scripts": {
-    "start": "npm install && node index.js",
+    "start": "node server/index.js",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",

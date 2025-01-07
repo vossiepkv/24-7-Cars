@@ -11,6 +11,16 @@ dotenv.config({ path: './server/.env' });
 
 const app = express();
 
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+console.log('Current file:', __filename);
+console.log('Current directory:', __dirname);
+
+
 // CORS configuration to allow requests from your frontend (http://localhost:5173)
 const corsOptions = {
   origin: 'http://localhost:5173',  // Allow frontend to communicate with backend
