@@ -1,3 +1,10 @@
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
 .loader {
   position: relative;
   width: 164px;
@@ -33,10 +40,9 @@
   top: 47px;
   border-radius: 50%;
   color: #fff;
-  box-shadow: -4px 7px 2px, -7px 16px 3px 1px, -11px 24px 4px 1px,
-    -6px 24px 4px 1px, -14px 35px 6px 2px, -5px 36px 8px 2px, -5px 45px 8px 2px,
-    -14px 49px 8px 2px, 6px 60px 11px 1px, -11px 66px 11px 1px, 11px 75px 13px,
-    -1px 82px 15px;
+  box-shadow: -4px 7px 2px, -7px 16px 3px 1px, -11px 24px 4px 1px, -6px 24px 4px 1px,
+    -14px 35px 6px 2px, -5px 36px 8px 2px, -5px 45px 8px 2px, -14px 49px 8px 2px,
+    6px 60px 11px 1px, -11px 66px 11px 1px, 11px 75px 13px, -1px 82px 15px;
 }
 
 @keyframes rotate {
