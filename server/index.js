@@ -13,7 +13,8 @@ const app = express();
 
 const allowedOrigins = [
   'https://24-7-cars.vercel.app',
-  'https://24-7-cars-49l0xjj8t-patrick-vohs-projects.vercel.app' // Add all necessary origins
+  'https://24-7-cars-49l0xjj8t-patrick-vohs-projects.vercel.app',
+  'http://localhost:5173' // Add all necessary origins
 ];
 
 
