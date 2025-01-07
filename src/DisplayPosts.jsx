@@ -22,6 +22,7 @@ const DisplayPosts = () => {
     };
 
     fetchPosts();
+    console.log('Fetched posts:', response.data);
   }, []);
 
   return (
