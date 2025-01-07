@@ -23,7 +23,7 @@ console.log('Current directory:', __dirname);
 
 // CORS configuration to allow requests from your frontend (http://localhost:5173)
 const corsOptions = {
-  origin: 'https://24-7-cars-49l0xjj8t-patrick-vohs-projects.vercel.app',  // Allow frontend to communicate with backend
+  origin: 'https://24-7-cars.vercel.app/',  // Allow frontend to communicate with backend
   methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow specific HTTP methods
 };
 
