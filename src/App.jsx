@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Signin from './Signin'
 import Signup from './Signup'
 import Home from './Home'
+import Profile from "./Profile";
 import ProtectedRoute from "./ProtectedRoutes";
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Navigate } from 'react-router-dom';
@@ -19,6 +20,8 @@ function App() {
         <Route path='/Signin' element={<Signin />}></Route>
         <Route path='/Signup' element={<Signup />}></Route>
         <Route path='/Home' element={<ProtectedRoute><Home /></ProtectedRoute>}></Route>
+        <Route path='/Profile' element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>
+
       </Routes>
     </BrowserRouter>
   )
