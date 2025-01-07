@@ -2,17 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap');
 
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
+body {
   background-color: #23242a;
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -21,7 +20,7 @@ body{
 
 .header-text {
   text-align: center;
-  font-size: 6vw;
+  font-size: 6vw; /* Responsive font size */
   background-image: linear-gradient(220.55deg, #FFC328 0%, #E20000 100%);
   background-size: 100%;
   background-repeat: repeat;
@@ -32,8 +31,8 @@ body{
   margin-bottom: 40px;
 }
 
-
-.Signup-Container::before {
+.Signup-Container::before,
+.Signup-Container::after {
   content: '';
   position: absolute;
   top: -50%;
@@ -47,38 +46,23 @@ body{
 }
 
 .Signup-Container::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 380px;
-  height: 420px;
-  background: linear-gradient(0deg, transparent, transparent, #FF4C29, #FF4C29, #FF4C29);
-  z-index: 1;
-  transform-origin: bottom right;
-  animation: animate 6s linear infinite;
   animation-delay: -3s;
 }
 
-
-
-@keyframes animate 
-{
-  0% 
-  {
+@keyframes animate {
+  0% {
     transform: rotate(0deg);
   }
-  100%
-  {
+  100% {
     transform: rotate(360deg);
   }
-
 }
 
 .Signup-Container {
   position: relative;
-  width: 380px;
-  height: 420px;
+  width: 90%; /* Use percentage for responsiveness */
+  max-width: 380px;
+  height: auto;
   background: #1c1c1c;
   border-radius: 8px;
   overflow: hidden;
@@ -108,20 +92,20 @@ body{
 
 .Signup-Container form .inputBox {
   position: relative;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   margin-top: 35px;
-
 }
 
-.Signup-Container form .inputBox input{
-  position: relative; 
+.Signup-Container form .inputBox input {
+  position: relative;
   width: 100%;
   padding: 20px 10px 10px;
   background: transparent;
   outline: none;
   border: none;
   box-shadow: none;
-  color:#23242a;
+  color: #23242a;
   font-size: 1em;
   letter-spacing: 0;
   transition: 0.5s;
@@ -145,7 +129,7 @@ body{
   transform: translateY(-34px);
 }
 
-.Signup-Container form .inputBox i{
+.Signup-Container form .inputBox i {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -180,7 +164,7 @@ body{
   color: #fff;
 }
 
-.login-button{
+.login-button {
   border: none;
   outline: none;
   padding: 9px 25px;
@@ -196,33 +180,59 @@ body{
 .Signup-Container form input[type="submit"]:active {
   opacity: 0.8;
 }
-/* Signin.css */
-#banner {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  padding: 10px;
-  text-align: center;
-  font-weight: bold;
-  color: white;
-  transition: opacity 0.5s ease, top 0.5s ease;
-  z-index: 1000;
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  /* Adjust header text for smaller screens */
+  .header-text {
+    font-size: 8vw; /* Scale text based on viewport width */
+    margin-bottom: 20px;
+  }
+
+  /* Adjust Signup container size for smaller screens */
+  .Signup-Container {
+    width: 90%;
+    height: auto;
+    padding: 20px;
+  }
+
+  /* Adjust form padding */
+  .Signup-Container form {
+    padding: 30px 20px;
+  }
+
+  /* Adjust input width */
+  .Signup-Container form .inputBox {
+    width: 100%;
+  }
+
+  /* Adjust login button width */
+  .login-button {
+    width: 80%;
+  }
 }
 
-.banner-error {
-  background-color: red;
-}
+@media screen and (max-width: 480px) {
+  /* Further adjust font sizes for very small screens */
+  .header-text {
+    font-size: 10vw;
+  }
 
-.banner-success {
-  background-color: green;
-}
+  /* Further adjustments to form layout for small devices */
+  .Signup-Container {
+    width: 95%;
+    padding: 15px;
+  }
 
-.hidden {
-  top: -50px; /* Move out of view */
-  opacity: 0;
-}
+  .Signup-Container form {
+    padding: 25px 15px;
+  }
 
-.visible {
-  top: 0; /* Slide into view */
-  opacity: 1;
+  .Signup-Container form .inputBox {
+    width: 100%;
+  }
+
+  .login-button {
+    width: 100%;
+  }
 }

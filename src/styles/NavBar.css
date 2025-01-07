@@ -13,7 +13,7 @@
   left: 0;
   display: flex;
   flex-direction: column;
-  align-items:flex-start;
+  align-items: flex-start;
   padding: 20px;
 }
 
@@ -98,4 +98,81 @@
 
 .create-post-button:hover {
   background-color: #555;
+}
+
+/* Responsive Styles */
+
+/* For screens smaller than 1024px (tablets and smaller desktops) */
+@media (max-width: 1024px) {
+  .NavBar {
+    width: 250px; /* Make the navbar a bit narrower on tablets */
+  }
+
+  .nav-links a {
+    font-size: 22px; /* Slightly smaller font on smaller screens */
+  }
+
+  .logout-button {
+    font-size: 24px; /* Adjust font size */
+    padding: 8px 16px; /* Slightly smaller padding */
+  }
+
+  .create-post-button {
+    font-size: 22px; /* Slightly smaller font */
+  }
+}
+
+/* For screens smaller than 768px (mobile tablets and larger phones) */
+@media (max-width: 768px) {
+  .NavBar {
+    width: 200px; /* Make navbar narrower */
+    padding: 15px; /* Reduce padding */
+  }
+
+  .nav-links a {
+    font-size: 20px; /* Smaller font size for mobile */
+    padding: 8px; /* Adjust padding */
+  }
+
+  .logout-button {
+    font-size: 20px;
+    padding: 8px 15px;
+  }
+
+  .create-post-button {
+    font-size: 20px;
+    padding: 8px;
+  }
+
+  .top-text {
+    font-size: 4vw; /* Adjust text size for mobile */
+  }
+}
+
+/* For screens smaller than 480px (phones) */
+@media (max-width: 480px) {
+  .NavBar {
+    width: 100%; /* Navbar takes full width on phones */
+    height: auto; /* Allow the height to adjust dynamically */
+    position: relative; /* Make navbar scrollable on mobile */
+  }
+
+  .nav-links a {
+    font-size: 18px; /* Even smaller font size */
+    padding: 6px; /* Adjust padding for mobile */
+  }
+
+  .logout-button {
+    font-size: 18px; /* Smaller font size for mobile */
+    padding: 6px 12px;
+  }
+
+  .create-post-button {
+    font-size: 18px;
+    padding: 6px;
+  }
+
+  .top-text {
+    font-size: 5vw; /* Make text a bit larger */
+  }
 }
