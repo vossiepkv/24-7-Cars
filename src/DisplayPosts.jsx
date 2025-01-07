@@ -47,6 +47,8 @@ const DisplayPosts = () => {
     fetchPosts().then(() => fetchUserData());
   }, [posts]); // Adding `posts` as a dependency to trigger fetchUserData after posts are set
 
+  console.log('Post User ID:', post.user);
+
   return (
     <div>
       <h1>All Posts</h1>
@@ -54,6 +56,7 @@ const DisplayPosts = () => {
         {posts.length > 0 ? (
           [...posts].reverse().map((post) => (
             <div key={post._id} className="post">
+              
               <h3>{users[post.user] || 'Unknown User'}</h3> {/* Show the username */}
               {/* Conditionally render the image only if mediaUrl exists */}
               {post.mediaUrl && (
