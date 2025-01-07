@@ -151,16 +151,7 @@ app.get('/user/:id', async (req, res) => {
   }
 });
 
-app.get('/user/profile', authenticationToken, async (req, res) => {
-  try {
-    const userId = req.user.id; // Assuming token includes user ID
-    const user = await User.findById(userId);
-    const posts = await Post.find({ userId }).sort({ timestamp: -1 });
-    res.json({ user, posts });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch profile data.' });
-  }
-});
+
 
 
 
