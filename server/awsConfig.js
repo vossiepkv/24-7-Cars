@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: './server/.env' }); // Load environment variables
 
 
-const s3Client = new S3Client({
+const s3 = new S3Client({
   region: process.env.AWS_REGION,  // Specify the appropriate region
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -14,4 +14,4 @@ const s3Client = new S3Client({
 });
 
 
-export default s3Client;
+export default s3;
