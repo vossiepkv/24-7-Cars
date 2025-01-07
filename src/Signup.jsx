@@ -16,7 +16,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post('http://localhost:5001/Signup', { name, email, password });
+      const result = await axios.post('https://two4-7-cars.onrender.com/Signup', { name, email, password });
       console.log("API Response:", result.data); // Log the full response for debugging
 
       const { user, token } = result.data; // Adjust to the new structure of the response

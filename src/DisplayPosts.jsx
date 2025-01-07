@@ -8,7 +8,7 @@ const DisplayPosts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/post');
+        const response = await axios.get('https://two4-7-cars.onrender.com/post');
         console.log('Fetched posts:', response.data);
         if (Array.isArray(response.data)) {
           setPosts(response.data);
