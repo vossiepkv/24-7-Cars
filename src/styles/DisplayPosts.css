@@ -12,13 +12,11 @@
   text-align: center;
   position: relative; /* Allows precise placement of the span */
   width: 60%; /* Ensure posts take full width */
-  margin-left: auto;
-  margin-right: auto; /* Centers the post horizontally */
 }
 
 .post img {
-  width: 100%; /* Make images take up full width of the container */
-  height: 300px; /* Adjust height for better responsiveness */
+  width: 80%; /* Make images take up full width of the container */
+  height: 900px; /* Fixed height for images */
   object-fit: cover; /* Ensures the image fills the box and maintains its aspect ratio */
   border-radius: 8px;
 }
@@ -49,55 +47,4 @@
   text-align: left;
   display: block; /* Ensures the span takes the full width */
   margin-top: 10px; /* Adds some space between the content and the date */
-}
-
-/* Responsive Styles */
-
-/* For screens smaller than 768px (tablets and mobile devices) */
-@media (max-width: 768px) {
-  .post {
-    width: 90%; /* Increase width to 90% for better use of space on smaller screens */
-    margin-left: auto;
-    margin-right: auto; /* Center the post horizontally */
-  }
-
-  .post img {
-    height: 200px; /* Adjust image height for smaller screens */
-  }
-
-  .post h2 {
-    font-size: 28px; /* Decrease heading font size for smaller screens */
-  }
-
-  .post p {
-    font-size: 18px; /* Decrease paragraph font size for better readability */
-  }
-
-  .post span {
-    font-size: 0.8em; /* Decrease the font size of the span on smaller screens */
-  }
-}
-
-/* For screens smaller than 480px (phones) */
-@media (max-width: 480px) {
-  .post {
-    width: 100%; /* Make posts take full width on very small screens */
-    padding: 10px; /* Reduce padding for smaller screens */
-  }
-
-  .post img {
-    height: 150px; /* Adjust image height further for very small screens */
-  }
-
-  .post h2 {
-    font-size: 24px; /* Further decrease heading font size */
-  }
-
-  .post p {
-    font-size: 16px; /* Further decrease paragraph font size */
-  }
-
-  .post span {
-    font-size: 0.75em; /* Make the span text smaller */
-  }
 }
