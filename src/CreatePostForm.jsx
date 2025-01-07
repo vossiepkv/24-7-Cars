@@ -30,16 +30,10 @@ function CreatePostForm({ addPost, onClose }) {
     const formDataToSend = new FormData();
     formDataToSend.append('title', title);
     formDataToSend.append('content', content);
-    formDataToSend.append('user', user._id);
+    formDataToSend.append('user', user._id); // Only send user ID
   
     if (media) {
       formDataToSend.append('media', media);
-    }
-  
-    // Log the form data for debugging
-    console.log("Form Data to Send:");
-    for (const pair of formDataToSend.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
     }
   
     try {
@@ -50,7 +44,7 @@ function CreatePostForm({ addPost, onClose }) {
         },
       });
   
-      console.log("API Response:", result.data); // Log the response for debugging
+      console.log("API Response:", result.data);
       addPost(result.data);
       onClose();
     } catch (error) {
@@ -60,8 +54,6 @@ function CreatePostForm({ addPost, onClose }) {
       setLoading(false);
     }
   };
-  
-
   return (
     <div className="popup-overlay" onClick={(e) => {
       if (e.target.className === 'popup-overlay') onClose();
