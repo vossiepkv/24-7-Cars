@@ -27,7 +27,7 @@
   font-size: 0.9em;
 }
 
-.post p, h2 {
+.post p, h2, h3 {
   padding-top: 10px;
   color: #fff;
   text-align: start !important;
