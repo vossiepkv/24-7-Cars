@@ -21,6 +21,23 @@ console.log('Current file:', __filename);
 console.log('Current directory:', __dirname);
 
 
+const cors = require('cors');
+
+const allowedOrigins = [
+    'https://24-7-cars.vercel.app',
+    'https://24-7-cars-49l0xjj8t-patrick-vohs-projects.vercel.app' // Include all required origins
+];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
+
 // CORS configuration to allow requests from your frontend (http://localhost:5173)
 const corsOptions = {
   origin: 'https://24-7-cars.vercel.app/',  // Allow frontend to communicate with backend
