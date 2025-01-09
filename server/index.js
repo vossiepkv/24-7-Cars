@@ -151,7 +151,18 @@ app.get('/user/:id', async (req, res) => {
   }
 });
 
+app.get('/posts/:userID', async (req, res) => {
+  const { userID } = req.params;
 
+  try {
+    // Query posts where the `user` field matches the provided userID
+    const posts = await Post.find({ user: userID }).populate('user'); // Populate user details if needed
+    res.json(posts);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ message: 'Error fetching posts' });
+  }
+});
 
 
 

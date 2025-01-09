@@ -42,6 +42,7 @@ const DisplayPosts = () => {
               <div key={post._id} className="post">
                 <div className="userbar">
                   <li>
+                    {/*avatar icon hardcoded*/}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
