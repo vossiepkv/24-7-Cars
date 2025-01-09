@@ -10,7 +10,7 @@ const ProfilePage = ({ userID }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`https://two4-7-cars.onrender.com/posts/${userID}`);
+        const response = await axios.get(`https://two4-7-cars.onrender.com/post/${userID}`);
         setPosts(response.data); // Set posts to the response data
       } catch (error) {
         console.error('Error fetching posts:', error);
