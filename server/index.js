@@ -6,6 +6,7 @@ import UserModel from './models/User.js'; // Add '.js' extensions
 import bcrypt from 'bcrypt'; // Import bcrypt for password hashing
 import jwt from 'jsonwebtoken';
 import postRoutes from './post.js'; // Add '.js' extension for the post module
+import Post from './models/Post.js';
 
 dotenv.config({ path: './server/.env' });
 
