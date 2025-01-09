@@ -48,7 +48,7 @@ const ProfilePage = ({ userId }) => {
     };
 
     fetchPosts();
-  }, [userID]);
+  }, [userId]);
 
   if (loading) {
     return <div>Loading posts...</div>;
