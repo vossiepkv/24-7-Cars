@@ -3,14 +3,42 @@ import axios from "axios";
 import './styles/ProfilePage.css';
 import NavBar from "./NavBar";
 
-const ProfilePage = ({ userID }) => {
+const ProfilePage = ({ userId }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const getUserIdFromLocalStorage = () => {
+    // Get the user object from local storage
+    const user = localStorage.getItem('user');
+  
+    // Parse the user object
+    if (user) {
+      try {
+        const parsedUser = JSON.parse(user); // Parse the JSON string
+        return parsedUser._id; // Return the _id property
+      } catch (error) {
+        console.error('Error parsing user from localStorage:', error);
+        return null; // Return null if parsing fails
+      }
+    } else {
+      console.error('No user found in localStorage');
+      return null;
+    }
+  };
+
   useEffect(() => {
     const fetchPosts = async () => {
+
+      
+    const userId = getUserIdFromLocalStorage();
+
+    if (!userId) {
+      console.error('User ID not available');
+      return;
+    }
+
       try {
-        const response = await axios.get(`https://two4-7-cars.onrender.com/post/${userID}`);
+        const response = await axios.get(`https://two4-7-cars.onrender.com/post/${userId}`);
         setPosts(response.data); // Set posts to the response data
       } catch (error) {
         console.error('Error fetching posts:', error);

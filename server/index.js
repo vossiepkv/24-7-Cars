@@ -154,6 +154,8 @@ app.get('/user/:id', async (req, res) => {
 app.get('/post/:userID', async (req, res) => {
   const { userID } = req.params;
 
+  
+
   try {
     // Query posts where the `user` field matches the provided userID
     const posts = await post.find({ user: userID }).populate('user'); // Populate user details if needed
