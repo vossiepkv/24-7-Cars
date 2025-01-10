@@ -62,14 +62,13 @@ const ProfilePage = () => {
             alt={user.name || 'User'}
             className="avatarimg"
           />
-          <h1>{user.name || 'Anonymous'}</h1>
-          <p>Username: {user.name || 'N/A'}</p>
-          <p>Bio: {user.bio || 'No bio available.'}</p>
+          <h1 className='username'>{user.name || 'Anonymous'}</h1>
+          <p className='bio'>Bio: {user.bio || 'No bio available.'}</p>
         </div>
 
         {/* User's Posts */}
         <div>
-          <h2>User Posts</h2>
+          <h2 className='head-title'>Posts</h2>
           {posts.length > 0 ? (
             <div className="posts-container">
               {posts.map((post) => (
@@ -81,8 +80,8 @@ const ProfilePage = () => {
                       className="post-image"
                     />
                   )}
-                  <h3>{post.title || 'Untitled Post'}</h3>
-                  <p>{post.content || 'No content available'}</p>
+                  <h3 className='title'>{post.title || 'Untitled Post'}</h3>
+                  <p className='content'>{post.content || 'No content available'}</p>
                   <span className="timestamp">
                     {new Date(post.createdAt).toLocaleString()}
                   </span>

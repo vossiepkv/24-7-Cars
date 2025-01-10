@@ -7,14 +7,12 @@
 
 /* Individual post styling */
 .post {
-  padding: 15px;
+  padding: 0px !important;
   border: 0px solid #fff !important;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   position: relative; /* Allows precise placement of the span */
-  width: 80%; /* Ensure posts take up full width */
-  margin-left: 15em;
+  width: 100%; /* Ensure posts take up full width */
+  margin-left: 8em;
   background-color: #23242a !important;
 }
 
@@ -25,6 +23,7 @@
   height: 600px; /* Fixed height for images */
   object-fit: cover; /* Ensures the image fills the box and maintains its aspect ratio */
   border-radius: 8px;
+  padding-right: 0 !important;
 }
 
 /* Avatar and username container */
