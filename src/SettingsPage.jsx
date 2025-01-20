@@ -8,6 +8,13 @@ import CreatePostForm from './CreatePostForm';
 const SettingsPage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showCreatePost, setShowCreatePost] = useState(false);
+  
+    const handleCreatePost = (newPost) => {
+      // Handle the new post data here
+      console.log('New post created:', newPost);
+      setShowCreatePost(false);
+    };
 
   const getUserFromLocalStorage = () => {
     const user = localStorage.getItem('user');
