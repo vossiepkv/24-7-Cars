@@ -54,6 +54,22 @@ const SettingsPage = () => {
         </div>
       )}
     </div>
+
+
+<div className="input-group mb-3">
+  <span className="input-group-text" id="basic-addon1">@</span>
+  <input type="text" className="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"/>
+</div>
+
+<div className="input-group">
+  <span className="input-group-text">Bio</span>
+  <textarea className="form-control" aria-label="Bio"></textarea>
+</div>
+
+<div class="input-group mb-3">
+  <label class="input-group-text" for="inputGroupFile01">Profile Picture</label>
+  <input type="file" class="form-control" id="inputGroupFile01"/>
+</div>
 </>
   );
 };
