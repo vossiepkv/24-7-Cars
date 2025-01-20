@@ -4,6 +4,7 @@ import Signin from './Signin'
 import Signup from './Signup'
 import Home from './Home'
 import ProfilePage from "./ProfilePage";
+import Settings from "./Settings";
 import ProtectedRoute from "./ProtectedRoutes";
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Navigate } from 'react-router-dom';
