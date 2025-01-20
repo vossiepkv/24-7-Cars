@@ -86,3 +86,7 @@
   text-align: left;
   display: block; /* Ensures the span takes the full width */
 }
+
+.title-space {
+  padding-left: 30px;
+}

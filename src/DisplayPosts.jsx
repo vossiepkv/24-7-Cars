@@ -62,8 +62,8 @@ const DisplayPosts = () => {
                 {post.mediaUrl && (
                   <img src={post.mediaUrl} alt={post.title || 'Post Image'} />
                 )}
-                <h2>{post.title || 'No Title Available'}</h2>
-                <p>{post.content || 'No Content Available'}</p>
+                <h2 className='title-space'>{post.title || 'No Title Available'}</h2>
+                <p className='content-space'>{post.content || 'No Content Available'}</p>
               </div>
             ))
           ) : (
