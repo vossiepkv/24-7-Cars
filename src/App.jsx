@@ -21,7 +21,7 @@ function App() {
         <Route path='/Signup' element={<Signup />}></Route>
         <Route path='/Home' element={<ProtectedRoute><Home /></ProtectedRoute>}></Route>
         <Route path='/Profile' element={<ProfilePage/>}></Route>
-
+        <Route path='/Settings' element={<ProfilePage />}></Route>
       </Routes>
     </BrowserRouter>
   )
