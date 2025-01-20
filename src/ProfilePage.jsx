@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import './styles/ProfilePage.css';
 import NavBar from "./NavBar";
+import CreatePostForm from './CreatePostForm';
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null); // State for user

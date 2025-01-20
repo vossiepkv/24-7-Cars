@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles/Settings.css';
 import NavBar from './NavBar';
+import CreatePostForm from './CreatePostForm';
+
 
 const SettingsPage = () => {
   const [user, setUser] = useState(null);
@@ -24,7 +26,27 @@ const SettingsPage = () => {
 
   return (
 <>
-<NavBar />
+
+<div className="home-container">
+      <NavBar onCreatePostClick={() => setShowCreatePost(true)} />
+      
+      {showCreatePost && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <button 
+              className="close-button"
+              onClick={() => setShowCreatePost(false)}
+            >
+              ×
+            </button>
+            <CreatePostForm 
+              addPost={handleCreatePost}
+              onClose={() => setShowCreatePost(false)}
+            />
+          </div>
+        </div>
+      )}
+    </div>
 </>
   );
 };
