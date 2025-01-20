@@ -4,7 +4,7 @@ import Signin from './Signin'
 import Signup from './Signup'
 import Home from './Home'
 import ProfilePage from "./ProfilePage";
-import Settings from "./Settings";
+import SettingsPage from "./SettingsPage";
 import ProtectedRoute from "./ProtectedRoutes";
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Navigate } from 'react-router-dom';
@@ -22,7 +22,7 @@ function App() {
         <Route path='/Signup' element={<Signup />}></Route>
         <Route path='/Home' element={<ProtectedRoute><Home /></ProtectedRoute>}></Route>
         <Route path='/Profile' element={<ProfilePage/>}></Route>
-        <Route path='/Settings' element={<ProfilePage />}></Route>
+        <Route path='/Settings' element={<SettingsPage />}></Route>
       </Routes>
     </BrowserRouter>
   )

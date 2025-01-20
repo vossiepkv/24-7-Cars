@@ -3,7 +3,7 @@ import axios from 'axios';
 import './styles/Settings.css';
 import NavBar from './NavBar';
 
-const Settings = () => {
+const SettingsPage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -29,4 +29,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default SettingsPage;
