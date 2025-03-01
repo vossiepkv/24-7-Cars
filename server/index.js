@@ -11,7 +11,7 @@ import Post from './models/Post.js';
 import settingsPageRoutes from './settingsPage.js';
 import signinRoutes from './Signin.js';
 import signupRoutes from './Signup.js';
-import userRoutes from './user.js';
+import userRoutes from './User.js';
 
 dotenv.config();
 
