@@ -13,28 +13,39 @@ const ProfilePage = () => {
     const fetchUserAndPosts = async () => {
       const userString = localStorage.getItem('user');
       if (!userString) {
-        console.error('No user data found in localStorage.');
+        console.error('No user data in localStorage.');
         setLoading(false);
-        return; // Exit early if no user data
+        return;
       }
       try {
         const storedUser = JSON.parse(userString);
+        console.log('Stored user object:', storedUser); // Log the entire object
+        console.log('User ID:', storedUser._id); // Log the userId
         if (!storedUser._id || !storedUser.name) {
-          console.error('Invalid user data in localStorage:', storedUser);
+          console.error('Invalid user data:', storedUser);
           setLoading(false);
-          return; //Exit early if invalid user data
+          return;
         }
-        setUser(storedUser); // Set user state
-        const response = await axios.get(`/api/post/${storedUser._id}`); //Relative URL
-        setPosts(response.data);
+        setUser(storedUser);
+        const response = await axios.get(`/api/post/${storedUser._id}`);
+        console.log('Response from axios:', response); // Log the entire response object
+        console.log('Response data:', response.data); // Log the response data specifically
+        console.log('Is response data an array?', Array.isArray(response.data)); //Check type
+        if (Array.isArray(response.data)) {
+          setPosts(response.data);
+        } else {
+          console.error('API response is not an array:', response.data);
+          setPosts([]);
+        }
       } catch (error) {
         console.error('Error fetching posts:', error);
+        setPosts([]);
         setLoading(false);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchUserAndPosts();
   }, []);
 
