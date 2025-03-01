@@ -42,7 +42,7 @@ const SettingsPage = () => {
     }
 
     try {
-      const response = await axios.put(`api/settingsPage/${userId}`, form, {
+      const response = await axios.put(`https://two4-7-cars.onrender.com/api/settingsPage/${userId}`, form, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
