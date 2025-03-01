@@ -7,25 +7,40 @@ const DisplayPosts = () => {
   const [loading, setLoading] = useState(false); // Loading state
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true); // Show spinner
+    const fetchUserAndPosts = async () => {
+      const userString = localStorage.getItem('user');
+      if (!userString) {
+        console.error('No user data in localStorage.');
+        setLoading(false);
+        return;
+      }
       try {
-        const response = await axios.get('https://two4-7-cars.onrender.com/api/post');
-        console.log('Fetched posts:', response.data);
+        const storedUser = JSON.parse(userString);
+        console.log('Stored user:', storedUser); // Log the entire storedUser object
+        console.log('User ID:', storedUser._id); // Log the userId specifically
+        if (!storedUser._id || !storedUser.name) {
+          console.error('Invalid user data in localStorage:', storedUser);
+          setLoading(false);
+          return;
+        }
+        setUser(storedUser);
+        const response = await axios.get(`/api/post/${storedUser._id}`);
         if (Array.isArray(response.data)) {
           setPosts(response.data);
         } else {
+          console.error('API response is not an array:', response.data);
           setPosts([]);
         }
       } catch (error) {
         console.error('Error fetching posts:', error);
         setPosts([]);
+        setLoading(false);
       } finally {
-        setLoading(false); // Hide spinner
+        setLoading(false);
       }
     };
-
-    fetchPosts();
+  
+    fetchUserAndPosts();
   }, []);
 
   return (
