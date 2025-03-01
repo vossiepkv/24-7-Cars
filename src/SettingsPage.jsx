@@ -7,7 +7,7 @@ const SettingsPage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
     bio: '',
@@ -33,7 +33,7 @@ const SettingsPage = () => {
   
 
     const form = new FormData();
-    form.append('username', formData.username);
+    form.append('name', formData.name);
     form.append('email', formData.email);
     
     if (formData.password.trim() !== '') {
@@ -69,7 +69,7 @@ const SettingsPage = () => {
     if (storedUser) {
       setUser(storedUser);
       setFormData({
-        username: storedUser.username || '',
+        username: storedUser.name || '',
         email: storedUser.email || '',
         bio: storedUser.bio || '',
         password: '',
@@ -112,8 +112,8 @@ const SettingsPage = () => {
           <input
             type="text"
             id="username"
-            name="username"
-            value={formData.username}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             className="form-control"
             required
