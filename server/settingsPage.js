@@ -19,12 +19,13 @@ router.put('/:userId', upload.single('profilePicture'), async (req, res) => {
     if (!user) return res.status(404).json({ error: 'User not found' });
 
     // Update other fields (username, email, bio, etc.)
-    Object.assign(user, updates); //Update safely using Object.assign
 
-    if (updates.password) {
+    if (updates.password && updates.password.trim() !== '') {
       const hashedPassword = await bcrypt.hash(updates.password, 10);
-      user.password = hashedPassword; //Save the hashed password
+      user.password = hashedPassword;
     }
+
+    Object.assign(user, updates); //Update safely using Object.assign
 
     if (req.file) {
       //If a new profile picture is uploaded, update the user's profilePicture URL.

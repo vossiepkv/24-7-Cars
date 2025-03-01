@@ -35,7 +35,10 @@ const SettingsPage = () => {
     const form = new FormData();
     form.append('username', formData.username);
     form.append('email', formData.email);
-    form.append('password', formData.password); //Handle password securely on the backend!
+    
+    if (formData.password.trim() !== '') {
+      form.append('password', formData.password); //Handle password securely on the backend!
+    }
     form.append('bio', formData.bio);
     if (formData.profilePicture) {
       form.append('profilePicture', formData.profilePicture);
