@@ -9,34 +9,27 @@ const ProfilePage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getUserFromLocalStorage = () => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        return JSON.parse(user); // Parse the JSON string
-      } catch (error) {
-        console.error('Error parsing user from localStorage:', error);
-        return null; // Return null if parsing fails
-      }
-    }
-    console.error('No user found in localStorage');
-    return null;
-  };
-
   useEffect(() => {
     const fetchUserAndPosts = async () => {
-      const storedUser = getUserFromLocalStorage();
-      if (!storedUser) return;
-
-      setUser(storedUser); // Set user state
-      
+      const userString = localStorage.getItem('user');
+      if (!userString) {
+        console.error('No user data found in localStorage.');
+        setLoading(false);
+        return; // Exit early if no user data
+      }
       try {
-        const response = await axios.get(
-          `https://two4-7-cars.onrender.com/api/post/${storedUser._id}`
-        );
+        const storedUser = JSON.parse(userString);
+        if (!storedUser._id || !storedUser.name) {
+          console.error('Invalid user data in localStorage:', storedUser);
+          setLoading(false);
+          return; //Exit early if invalid user data
+        }
+        setUser(storedUser); // Set user state
+        const response = await axios.get(`/api/post/${storedUser._id}`); //Relative URL
         setPosts(response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);
+        setLoading(false);
       } finally {
         setLoading(false);
       }
