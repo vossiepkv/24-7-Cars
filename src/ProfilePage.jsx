@@ -32,7 +32,7 @@ const ProfilePage = () => {
       
       try {
         const response = await axios.get(
-          `https://two4-7-cars.onrender.com/post/${storedUser._id}`
+          `https://two4-7-cars.onrender.com/api/post/${storedUser._id}`
         );
         setPosts(response.data);
       } catch (error) {

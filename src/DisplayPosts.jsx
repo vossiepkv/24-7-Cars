@@ -10,7 +10,7 @@ const DisplayPosts = () => {
     const fetchPosts = async () => {
       setLoading(true); // Show spinner
       try {
-        const response = await axios.get('https://two4-7-cars.onrender.com/post');
+        const response = await axios.get('https://two4-7-cars.onrender.com/api/post');
         console.log('Fetched posts:', response.data);
         if (Array.isArray(response.data)) {
           setPosts(response.data);

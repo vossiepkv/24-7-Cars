@@ -27,7 +27,7 @@ function Signin() {
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const result = await axios.post('https://two4-7-cars.onrender.com/Signin', { name, password });
+    const result = await axios.post('https://two4-7-cars.onrender.com/api/signin', { name, password });
     console.log(result.data); // Log the response to inspect its structure
 
     if (result.data && result.data.message === "success") {

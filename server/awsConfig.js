@@ -2,7 +2,7 @@
 import { S3Client } from "@aws-sdk/client-s3"; // v3 import
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './server/.env' }); // Load environment variables
+dotenv.config({ path: './.env' }); // Load environment variables
 
 
 const s3 = new S3Client({

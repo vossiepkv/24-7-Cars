@@ -14,54 +14,51 @@ const SettingsPage = () => {
     profilePicture: null,
   });
 
-  // Handle form field changes
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-
+    const { name, type, files } = e.target;
     if (type === 'file') {
-      setFormData({ ...formData, [name]: files[0] }); // For file input
+      setFormData({ ...formData, [name]: files[0] });
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({ ...formData, [name]: e.target.value });
     }
   };
 
-  // Handle form submission (for updating user info)
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    // You can now send formData to your backend API to update the user info
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userId = user._id; // Assuming you have the user ID from authentication
+
+    console.log("userId:", userId); // Log the userId being used
+    console.log("user object:", user); // Log the entire user object
+  
+
     const form = new FormData();
     form.append('username', formData.username);
     form.append('email', formData.email);
-    form.append('password', formData.password);
+    form.append('password', formData.password); //Handle password securely on the backend!
     form.append('bio', formData.bio);
     if (formData.profilePicture) {
       form.append('profilePicture', formData.profilePicture);
     }
 
-    // Example API call to update user info (replace with your own API)
-    axios.post('https://your-api.com/update-profile', form)
-      .then(response => {
-        console.log('User updated successfully:', response.data);
-      })
-      .catch(error => {
-        console.error('Error updating user:', error);
+    try {
+      const response = await axios.put(`api/settingsPage/${userId}`, form, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
+      console.log('User updated successfully:', response.data);
+      setUser(response.data.user); // Update user state after successful update.
+      // Update UI with the new user data
+    } catch (error) {
+      console.error('Error updating user:', error);
+      //Handle error gracefully (e.g., display error message to the user).
+    }
   };
 
-  // Get the user data from local storage (assuming user is stored in localStorage)
   const getUserFromLocalStorage = () => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        return JSON.parse(user);
-      } catch (error) {
-        console.error('Error parsing user from localStorage:', error);
-        return null;
-      }
-    }
-    console.error('No user found in localStorage');
-    return null;
+    const userString = localStorage.getItem('user');
+    return userString ? JSON.parse(userString) : null;
   };
 
   useEffect(() => {
@@ -77,7 +74,24 @@ const SettingsPage = () => {
       });
       setLoading(false);
     }
-  }, []);
+  }, []); // No need for a dependency array here because we only fetch once.
+
+  useEffect(() => {
+    if (user) {
+      testSimpleRoute();
+    }
+  }, [user]);
+
+
+  const testSimpleRoute = async () => {
+    const userId = user._id;
+    try {
+      const response = await axios.get(`/settingsPage/${userId}`);
+      console.log('Test route response:', response.data);
+    } catch (error) {
+      console.error('Error testing simple route:', error);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -160,8 +174,7 @@ const SettingsPage = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="form-control"
-            required
+            className="formControl"
           />
         </div>
 

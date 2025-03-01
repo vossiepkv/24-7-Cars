@@ -37,7 +37,7 @@ function CreatePostForm({ addPost, onClose }) {
     }
   
     try {
-      const result = await axios.post('https://two4-7-cars.onrender.com/post', formDataToSend, {
+      const result = await axios.post('https://two4-7-cars.onrender.com/api/post', formDataToSend, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
