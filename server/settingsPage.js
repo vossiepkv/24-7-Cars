@@ -1,6 +1,7 @@
 import express from 'express';
 import UserModel from './models/User.js';
 import upload from './upload.js';
+import bcrypt from 'bcrypt';
 
 const router = express.Router();
 
@@ -19,6 +20,11 @@ router.put('/:userId', upload.single('profilePicture'), async (req, res) => {
 
     // Update other fields (username, email, bio, etc.)
     Object.assign(user, updates); //Update safely using Object.assign
+
+    if (updates.password) {
+      const hashedPassword = await bcrypt.hash(updates.password, 10);
+      user.password = hashedPassword; //Save the hashed password
+    }
 
     if (req.file) {
       //If a new profile picture is uploaded, update the user's profilePicture URL.
