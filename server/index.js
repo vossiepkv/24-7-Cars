@@ -49,12 +49,12 @@ app.use('/api/signup', signupRoutes);
 app.use('/api/user', userRoutes);
 
 // Serve static files (your React app)
-const buildPath = path.join(process.cwd(), 'build'); // Use process.cwd()
+const buildPath = path.join('../dist'); // Use process.cwd()
 app.use(express.static(buildPath));
 
 // Catch-all route (MUST come LAST)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'build/index.html'));
+  res.sendFile(path.join('index.html'));
 });
 
 const mongoURI = process.env.MONGO_URI;
