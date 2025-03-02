@@ -46,12 +46,17 @@ router.post('/', upload.single('media'), async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
-  console.log('GET /post endpoint hit'); // Debug log
+router.get('/:userId', async (req, res) => {
+  console.log('GET /api/post/:userId endpoint hit. userId:', req.params.userId);
+  const userId = req.params.userId;
+
   try {
-    const posts = await postModel.find().populate('user', 'name');
+    // Correct query to fetch posts for the specific user
+    const posts = await postModel.find({ user: userId }).populate('user', 'name'); 
+    console.log('Posts fetched:', posts); 
     res.status(200).json(posts);
   } catch (error) {
+    console.error('Error fetching posts:', error);
     res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
   }
 });
