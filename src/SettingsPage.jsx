@@ -32,8 +32,14 @@ const SettingsPage = () => {
     console.log("user object:", user); // Log the entire user object
   
     const form = new FormData();
-    form.append('name', formData.name);
-    form.append('email', formData.email);
+
+    if (formData.name.trim() !== '' || {storedUser}) {
+      form.append('name', formData.name);
+    }
+    if (formData.email.trim() !== '' || {storedUser}){
+      form.append('email', formData.email);
+    }
+    
     
     if (formData.password.trim() !== '') {
       form.append('password', formData.password); // Handle password securely on the backend!
