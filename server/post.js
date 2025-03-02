@@ -46,23 +46,43 @@ router.post('/', upload.single('media'), async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  console.log('GET /api/post endpoint hit. Fetching all posts.');
+  
+  try {
+    const posts = await postModel.find().populate('user', 'name'); 
+    console.log('All posts fetched:', posts);
+
+    if (!posts.length) {
+      return res.status(404).json({ message: 'No posts found' });
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error('Error fetching all posts:', error);
+    res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
+  }
+});
+
+// Fetch posts by user ID (for profile page)
 router.get('/:userId', async (req, res) => {
   console.log('GET /api/post/:userId endpoint hit. userId:', req.params.userId);
   const userId = req.params.userId;
 
   try {
     const posts = await postModel.find({ user: userId }).populate('user', 'name'); 
-    console.log('Posts fetched:', posts);
+    console.log('User posts fetched:', posts);
 
-    if (!posts) {
-      return res.status(404).json({ message: 'No posts found' });
+    if (!posts.length) {
+      return res.status(404).json({ message: 'No posts found for this user' });
     }
 
-    res.setHeader('Content-Type', 'application/json'); // Ensure JSON response
+    res.setHeader('Content-Type', 'application/json');
     res.status(200).json(posts);
   } catch (error) {
-    console.error('Error fetching posts:', error);
-    res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
+    console.error('Error fetching user posts:', error);
+    res.status(500).json({ message: 'Failed to fetch user posts', error: error.message });
   }
 });
 
