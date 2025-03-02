@@ -25,10 +25,13 @@ const ProfilePage = () => {
         // Fetch updated user data
         const userResponse = await axios.get(`https://two4-7-cars.onrender.com/api/user/${userId}`);
         const updatedUser = userResponse.data;
-        
+  
+        // Merge with stored user to keep missing fields
+        const mergedUser = { ...storedUser, ...updatedUser };
+  
         // Update state and localStorage with latest user data
-        setUser(updatedUser);
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(mergedUser);
+        localStorage.setItem('user', JSON.stringify(mergedUser));
   
         // Fetch posts
         const postsResponse = await axios.get(`https://two4-7-cars.onrender.com/api/post/${userId}`);
@@ -43,6 +46,7 @@ const ProfilePage = () => {
   
     fetchUserAndPosts();
   }, []);
+  
   if (loading) {
     return <div>Loading...</div>;
   }
