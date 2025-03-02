@@ -51,9 +51,14 @@ router.get('/:userId', async (req, res) => {
   const userId = req.params.userId;
 
   try {
-    // Correct query to fetch posts for the specific user
     const posts = await postModel.find({ user: userId }).populate('user', 'name'); 
-    console.log('Posts fetched:', posts); 
+    console.log('Posts fetched:', posts);
+
+    if (!posts) {
+      return res.status(404).json({ message: 'No posts found' });
+    }
+
+    res.setHeader('Content-Type', 'application/json'); // Ensure JSON response
     res.status(200).json(posts);
   } catch (error) {
     console.error('Error fetching posts:', error);

@@ -27,7 +27,7 @@ const ProfilePage = () => {
           return;
         }
         setUser(storedUser);
-        const response = await axios.get(`/api/post/${storedUser._id}`);
+        const response = await axios.get(`https://two4-7-cars.onrender.com/api/post/${storedUser._id}`);
         console.log('Response from axios:', response); // Log the entire response object
         console.log('Response data:', response.data); // Log the response data specifically
         console.log('Is response data an array?', Array.isArray(response.data)); //Check type
