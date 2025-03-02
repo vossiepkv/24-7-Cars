@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './styles/Settings.css';
-import NavBar from './NavBar';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./styles/Settings.css";
+import NavBar from "./NavBar";
 
 const SettingsPage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    bio: '',
+    name: "",
+    email: "",
+    password: "",
+    bio: "",
     profilePicture: null,
   });
 
   // Load user data from local storage
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
       setFormData({
-        name: parsedUser.name || '',
-        email: parsedUser.email || '',
-        bio: parsedUser.bio || '',
-        password: '', // Do not pre-fill password
+        name: parsedUser.name || "",
+        email: parsedUser.email || "",
+        bio: parsedUser.bio || "",
+        password: "", // Do not pre-fill password
         profilePicture: parsedUser.profilePicture || null,
       });
     }
@@ -34,7 +34,7 @@ const SettingsPage = () => {
   // Update local storage whenever user state changes
   useEffect(() => {
     if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
     }
   }, [user]);
 
@@ -42,7 +42,7 @@ const SettingsPage = () => {
     const { name, type, files, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: type === 'file' ? files[0] : value,
+      [name]: type === "file" ? files[0] : value,
     }));
   };
 
@@ -51,29 +51,31 @@ const SettingsPage = () => {
     if (!user) return;
 
     const form = new FormData();
-    if (formData.name.trim()) form.append('name', formData.name);
-    if (formData.email.trim()) form.append('email', formData.email);
-    if (formData.password.trim()) form.append('password', formData.password);
-    if (formData.bio.trim()) form.append('bio', formData.bio);
-    if (formData.profilePicture) form.append('profilePicture', formData.profilePicture);
+    if (formData.name.trim()) form.append("name", formData.name);
+    if (formData.email.trim()) form.append("email", formData.email);
+    if (formData.password.trim()) form.append("password", formData.password);
+    if (formData.bio.trim()) form.append("bio", formData.bio);
+    if (formData.profilePicture)
+      form.append("profilePicture", formData.profilePicture);
 
     try {
       const response = await axios.put(
         `https://two4-7-cars.onrender.com/api/settingsPage/${user._id}`,
         form,
-        { headers: { 'Content-Type': 'multipart/form-data' } }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       if (response.data.user) {
         const updatedUser = {
           ...response.data.user,
-          profilePicture: response.data.user.profilePicture || user.profilePicture,
+          profilePicture:
+            response.data.user.profilePicture || user.profilePicture,
         };
 
         setUser(updatedUser); // Update state (will also update localStorage via useEffect)
       }
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.error("Error updating user:", error);
     }
   };
 
@@ -107,15 +109,16 @@ const SettingsPage = () => {
             onChange={handleChange}
             className="form-control"
           />
-          {formData.profilePicture && (
-            <div className="profile-picture-preview">
-              <img
-                src={URL.createObjectURL(formData.profilePicture)}
-                alt="Profile Preview"
-                className="preview-image"
-              />
-            </div>
-          )}
+          {formData.profilePicture &&
+            typeof formData.profilePicture === "object" && (
+              <div className="profile-picture-preview">
+                <img
+                  src={URL.createObjectURL(formData.profilePicture)}
+                  alt="Profile Preview"
+                  className="preview-image"
+                />
+              </div>
+            )}
         </div>
 
         <div className="form-group">
