@@ -48,6 +48,9 @@ h2 {
 
 .avatarimg {
   padding-left: 250px;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 100%;
 }
 
 .username, .bio {
