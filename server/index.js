@@ -49,7 +49,7 @@ app.use('/api/signup', signupRoutes);
 app.use('/api/user', userRoutes);
 
 // Serve static files (your React app)
-const distPath = path.join(process.cwd, '../dist'); // Use process.cwd()
+const distPath = path.join(process.cwd(), '../dist'); // Use process.cwd()
 app.use(express.static(distPath));
 
 // Catch-all route (MUST come LAST)
