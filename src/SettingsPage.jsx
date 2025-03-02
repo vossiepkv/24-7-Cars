@@ -14,30 +14,34 @@ const SettingsPage = () => {
     profilePicture: null,
   });
 
-  const getUserFromLocalStorage = () => {
-    const userString = localStorage.getItem('user');
-    return userString ? JSON.parse(userString) : null;
-  };
-
+  // Load user data from local storage
   useEffect(() => {
-    const storedUser = getUserFromLocalStorage();
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(storedUser);
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
       setFormData({
-        name: storedUser.name || '',
-        email: storedUser.email || '',
-        bio: storedUser.bio || '',
-        password: '',
-        profilePicture: storedUser.profilePicture || null,
+        name: parsedUser.name || '',
+        email: parsedUser.email || '',
+        bio: parsedUser.bio || '',
+        password: '', // Do not pre-fill password
+        profilePicture: parsedUser.profilePicture || null,
       });
     }
     setLoading(false);
   }, []);
 
+  // Update local storage whenever user state changes
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }, [user]);
+
   const handleChange = (e) => {
     const { name, type, files, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: type === 'file' ? files[0] : value,
     }));
   };
@@ -47,13 +51,11 @@ const SettingsPage = () => {
     if (!user) return;
 
     const form = new FormData();
-    form.append('name', formData.name || user.name);
-    form.append('email', formData.email || user.email);
-    if (formData.password.trim() !== '') {
-      form.append('password', formData.password);
-    }
-    form.append('bio', formData.bio);
-    form.append('profilePicture', formData.profilePicture || user.profilePicture);
+    if (formData.name.trim()) form.append('name', formData.name);
+    if (formData.email.trim()) form.append('email', formData.email);
+    if (formData.password.trim()) form.append('password', formData.password);
+    if (formData.bio.trim()) form.append('bio', formData.bio);
+    if (formData.profilePicture) form.append('profilePicture', formData.profilePicture);
 
     try {
       const response = await axios.put(
@@ -68,23 +70,22 @@ const SettingsPage = () => {
           profilePicture: response.data.user.profilePicture || user.profilePicture,
         };
 
-        setUser(updatedUser);
-        console.log("Updated user state:", updatedUser);
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser); // Update state (will also update localStorage via useEffect)
       }
     } catch (error) {
       console.error('Error updating user:', error);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="settings-container">
       <NavBar />
       <h2>Settings</h2>
       <form onSubmit={handleSubmit} className="settings-form">
-        {/* Username */}
         <div className="form-group">
           <label htmlFor="name">Username</label>
           <input
@@ -97,7 +98,6 @@ const SettingsPage = () => {
           />
         </div>
 
-        {/* Profile Picture */}
         <div className="form-group">
           <label htmlFor="profilePicture">Profile Picture</label>
           <input
@@ -110,9 +110,7 @@ const SettingsPage = () => {
           {formData.profilePicture && (
             <div className="profile-picture-preview">
               <img
-                src={typeof formData.profilePicture === 'string' 
-                  ? formData.profilePicture 
-                  : URL.createObjectURL(formData.profilePicture)}
+                src={URL.createObjectURL(formData.profilePicture)}
                 alt="Profile Preview"
                 className="preview-image"
               />
@@ -120,7 +118,6 @@ const SettingsPage = () => {
           )}
         </div>
 
-        {/* Bio */}
         <div className="form-group">
           <label htmlFor="bio">Bio</label>
           <textarea
@@ -132,7 +129,6 @@ const SettingsPage = () => {
           />
         </div>
 
-        {/* Email */}
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -142,11 +138,9 @@ const SettingsPage = () => {
             value={formData.email}
             onChange={handleChange}
             className="form-control"
-            required
           />
         </div>
 
-        {/* Password */}
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
@@ -159,7 +153,6 @@ const SettingsPage = () => {
           />
         </div>
 
-        {/* Submit Button */}
         <button type="submit" className="submit-button">
           Save Changes
         </button>
