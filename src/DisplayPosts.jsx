@@ -23,8 +23,8 @@ const DisplayPosts = () => {
           setLoading(false);
           return;
         }
-        setUser(storedUser);
-        const response = await axios.get(`/api/post/${storedUser._id}`);
+  
+        const response = await axios.get(`/api/post`);
         if (Array.isArray(response.data)) {
           setPosts(response.data);
         } else {
