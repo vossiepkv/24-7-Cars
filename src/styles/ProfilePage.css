@@ -52,7 +52,7 @@ h2 {
   border-radius: 50%;
   object-fit: cover; /* Ensures the image fits well inside the circle */
   display: block;
-  margin-left: 350px auto; /* Centers the image */
+  margin-left: 350px; /* Centers the image */
 }
 
 
