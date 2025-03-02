@@ -24,7 +24,7 @@ const DisplayPosts = () => {
           return;
         }
   
-        const response = await axios.get(`/api/post`);
+        const response = await axios.get(`https://two4-7-cars.onrender.com/api/post`);
         if (Array.isArray(response.data)) {
           setPosts(response.data);
         } else {
