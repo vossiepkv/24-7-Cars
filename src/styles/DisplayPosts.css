@@ -43,9 +43,10 @@
 
 /* Avatar styling */
 .avatar {
-  width: 50px; /* Avatar width */
-  height: 50px; /* Avatar height */
-  color: #fff;
+  width: 50px; /* Fixed width */
+  height: 50px; /* Fixed height */
+  border-radius: 50%; /* Ensures images are circular */
+  object-fit: cover; /* Ensures images fit properly within the dimensions */
   display: block;
   padding-right: 10px;
 }
