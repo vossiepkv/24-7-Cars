@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
   console.log('GET /api/post endpoint hit. Fetching all posts.');
   
   try {
-    const posts = await postModel.find().populate('user', 'name'); 
+    const posts = await postModel.find().populate('user', 'name profilePicture'); 
     console.log('All posts fetched:', posts);
 
     if (!posts.length) {
