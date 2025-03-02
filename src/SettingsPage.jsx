@@ -129,7 +129,6 @@ const SettingsPage = () => {
             value={formData.bio}
             onChange={handleChange}
             className="form-control"
-            required
           />
         </div>
 
