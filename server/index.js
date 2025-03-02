@@ -48,14 +48,6 @@ app.use('/api/signin', signinRoutes);
 app.use('/api/signup', signupRoutes);
 app.use('/api/user', userRoutes);
 
-// Serve static files (your React app)
-const distPath = path.join(process.cwd(), '../dist'); // Use process.cwd()
-app.use(express.static(distPath));
-
-// Catch-all route (MUST come LAST)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
-});
 
 const mongoURI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
