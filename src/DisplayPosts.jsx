@@ -73,7 +73,7 @@ const DisplayPosts = () => {
                         />
                       </svg>
                     )}
-                    <h3>{post.user?.name || 'Unknown User'}</h3>
+                    <h3 className='nameSection'>{post.user?.name || 'Unknown User'}</h3>
                     <span>{new Date(post.timestamp).toLocaleString()}</span>
                   </li>
                 </div>
