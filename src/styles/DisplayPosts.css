@@ -11,7 +11,7 @@
   border: none !important;
   text-align: center;
   position: relative; /* Allows precise placement of the span */
-  width: 475px; /* Ensure posts take up full width */
+  width: 475px !important; /* Ensure posts take up full width */
   margin-left: 8em;
   background-color: #23242a !important;
 }
