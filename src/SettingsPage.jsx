@@ -14,115 +14,82 @@ const SettingsPage = () => {
     profilePicture: null,
   });
 
-  const handleChange = (e) => {
-    const { name, type, files } = e.target;
-    if (type === 'file') {
-      setFormData({ ...formData, [name]: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: e.target.value });
-    }
-  };
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const userId = user._id; // Assuming you have the user ID from authentication
-  
-    console.log("userId:", userId); // Log the userId being used
-    console.log("user object:", user); // Log the entire user object
-  
-    const form = new FormData();
-
-    if (formData.name.trim() !== '' || {storedUser}) {
-      form.append('name', formData.name);
-    }
-    if (formData.email.trim() !== '' || {storedUser}){
-      form.append('email', formData.email);
-    }
-    
-    
-    if (formData.password.trim() !== '') {
-      form.append('password', formData.password); // Handle password securely on the backend!
-    }
-    form.append('bio', formData.bio);
-    if (formData.profilePicture) {
-      form.append('profilePicture', formData.profilePicture);
-    }
-  
-    try {
-      const response = await axios.put(
-        `https://two4-7-cars.onrender.com/api/settingsPage/${userId}`, 
-        form, 
-        { headers: { 'Content-Type': 'multipart/form-data' } }
-      );
-  
-      console.log('User updated successfully:', response.data);
-      
-      // Update user state
-      setUser(response.data.user);
-      
-      // Update localStorage so ProfilePage gets fresh data
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    } catch (error) {
-      console.error('Error updating user:', error);
-    }
-  }; 
-  
-  // Function moved outside handleSubmit
   const getUserFromLocalStorage = () => {
     const userString = localStorage.getItem('user');
     return userString ? JSON.parse(userString) : null;
   };
-  
 
   useEffect(() => {
     const storedUser = getUserFromLocalStorage();
     if (storedUser) {
       setUser(storedUser);
       setFormData({
-        username: storedUser.name || '',
+        name: storedUser.name || '',
         email: storedUser.email || '',
         bio: storedUser.bio || '',
         password: '',
         profilePicture: storedUser.profilePicture || null,
       });
-      setLoading(false);
     }
-  }, []); // No need for a dependency array here because we only fetch once.
+    setLoading(false);
+  }, []);
 
-  useEffect(() => {
-    if (user) {
-      testSimpleRoute();
+  const handleChange = (e) => {
+    const { name, type, files, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'file' ? files[0] : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!user) return;
+
+    const form = new FormData();
+    form.append('name', formData.name || user.name);
+    form.append('email', formData.email || user.email);
+    if (formData.password.trim() !== '') {
+      form.append('password', formData.password);
     }
-  }, [user]);
+    form.append('bio', formData.bio);
+    form.append('profilePicture', formData.profilePicture || user.profilePicture);
 
-
-  const testSimpleRoute = async () => {
-    const userId = user._id;
     try {
-      const response = await axios.get(`/settingsPage/${userId}`);
-      console.log('Test route response:', response.data);
+      const response = await axios.put(
+        `https://two4-7-cars.onrender.com/api/settingsPage/${user._id}`,
+        form,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+
+      if (response.data.user) {
+        const updatedUser = {
+          ...response.data.user,
+          profilePicture: response.data.user.profilePicture || user.profilePicture,
+        };
+
+        setUser(updatedUser);
+        console.log("Updated user state:", updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      }
     } catch (error) {
-      console.error('Error testing simple route:', error);
+      console.error('Error updating user:', error);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="settings-container">
       <NavBar />
-
       <h2>Settings</h2>
       <form onSubmit={handleSubmit} className="settings-form">
         {/* Username */}
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="name">Username</label>
           <input
             type="text"
-            id="username"
+            id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -143,7 +110,9 @@ const SettingsPage = () => {
           {formData.profilePicture && (
             <div className="profile-picture-preview">
               <img
-                src={URL.createObjectURL(formData.profilePicture)}
+                src={typeof formData.profilePicture === 'string' 
+                  ? formData.profilePicture 
+                  : URL.createObjectURL(formData.profilePicture)}
                 alt="Profile Preview"
                 className="preview-image"
               />
@@ -187,7 +156,7 @@ const SettingsPage = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="formControl"
+            className="form-control"
           />
         </div>
 

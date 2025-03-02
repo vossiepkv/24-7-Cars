@@ -57,7 +57,7 @@ const ProfilePage = () => {
       <div className="profile-page">
         <div className="profile-header">
           <img
-            src={user.avatar || 'default-avatar.jpg'} // Default avatar fallback
+            src={user.profilePicture || 'default-avatar.jpg'} // Default avatar fallback
             alt={user.name || 'User'}
             className="avatarimg"
           />
