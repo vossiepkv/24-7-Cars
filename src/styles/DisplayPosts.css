@@ -8,7 +8,6 @@
 /* Individual post styling */
 .post {
   padding: 0px !important;
-  border: 0px solid #fff !important;
   text-align: center;
   position: relative; /* Allows precise placement of the span */
   width: 100%; /* Ensure posts take up full width */
