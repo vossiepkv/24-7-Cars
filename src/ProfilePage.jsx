@@ -17,30 +17,25 @@ const ProfilePage = () => {
         setLoading(false);
         return;
       }
+  
       try {
         const storedUser = JSON.parse(userString);
-        console.log('Stored user object:', storedUser); // Log the entire object
-        console.log('User ID:', storedUser._id); // Log the userId
-        if (!storedUser._id || !storedUser.name) {
-          console.error('Invalid user data:', storedUser);
-          setLoading(false);
-          return;
-        }
-        setUser(storedUser);
-        const response = await axios.get(`https://two4-7-cars.onrender.com/api/post/${storedUser._id}`);
-        console.log('Response from axios:', response); // Log the entire response object
-        console.log('Response data:', response.data); // Log the response data specifically
-        console.log('Is response data an array?', Array.isArray(response.data)); //Check type
-        if (Array.isArray(response.data)) {
-          setPosts(response.data);
-        } else {
-          console.error('API response is not an array:', response.data);
-          setPosts([]);
-        }
+        const userId = storedUser._id;
+  
+        // Fetch updated user data
+        const userResponse = await axios.get(`https://two4-7-cars.onrender.com/api/user/${userId}`);
+        const updatedUser = userResponse.data;
+        
+        // Update state and localStorage with latest user data
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+  
+        // Fetch posts
+        const postsResponse = await axios.get(`https://two4-7-cars.onrender.com/api/post/${userId}`);
+        setPosts(Array.isArray(postsResponse.data) ? postsResponse.data : []);
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        console.error('Error fetching user or posts:', error);
         setPosts([]);
-        setLoading(false);
       } finally {
         setLoading(false);
       }
@@ -48,7 +43,6 @@ const ProfilePage = () => {
   
     fetchUserAndPosts();
   }, []);
-
   if (loading) {
     return <div>Loading...</div>;
   }

@@ -27,42 +27,47 @@ const SettingsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userId = user._id; // Assuming you have the user ID from authentication
-
+  
     console.log("userId:", userId); // Log the userId being used
     console.log("user object:", user); // Log the entire user object
   
-
     const form = new FormData();
     form.append('name', formData.name);
     form.append('email', formData.email);
     
     if (formData.password.trim() !== '') {
-      form.append('password', formData.password); //Handle password securely on the backend!
+      form.append('password', formData.password); // Handle password securely on the backend!
     }
     form.append('bio', formData.bio);
     if (formData.profilePicture) {
       form.append('profilePicture', formData.profilePicture);
     }
-
+  
     try {
-      const response = await axios.put(`https://two4-7-cars.onrender.com/api/settingsPage/${userId}`, form, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.put(
+        `https://two4-7-cars.onrender.com/api/settingsPage/${userId}`, 
+        form, 
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+  
       console.log('User updated successfully:', response.data);
-      setUser(response.data.user); // Update user state after successful update.
-      // Update UI with the new user data
+      
+      // Update user state
+      setUser(response.data.user);
+      
+      // Update localStorage so ProfilePage gets fresh data
+      localStorage.setItem('user', JSON.stringify(response.data.user));
     } catch (error) {
       console.error('Error updating user:', error);
-      //Handle error gracefully (e.g., display error message to the user).
     }
-  };
-
+  }; 
+  
+  // Function moved outside handleSubmit
   const getUserFromLocalStorage = () => {
     const userString = localStorage.getItem('user');
     return userString ? JSON.parse(userString) : null;
   };
+  
 
   useEffect(() => {
     const storedUser = getUserFromLocalStorage();
@@ -116,7 +121,6 @@ const SettingsPage = () => {
             value={formData.name}
             onChange={handleChange}
             className="form-control"
-            required
           />
         </div>
 

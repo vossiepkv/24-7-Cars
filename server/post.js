@@ -75,7 +75,7 @@ router.get('/:userId', async (req, res) => {
     console.log('User posts fetched:', posts);
 
     if (!posts.length) {
-      return res.status(404).json({ message: 'No posts found for this user' });
+      return res.status(200).json([]); // Return 200 with an empty array
     }
 
     res.setHeader('Content-Type', 'application/json');
