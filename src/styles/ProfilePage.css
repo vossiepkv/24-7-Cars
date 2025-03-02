@@ -47,11 +47,14 @@ h2 {
 }
 
 .avatarimg {
-  padding-left: 250px;
   width: 10rem;
   height: 10rem;
-  border-radius: 100%;
+  border-radius: 50%;
+  object-fit: cover; /* Ensures the image fits well inside the circle */
+  display: block;
+  margin: 0 auto; /* Centers the image */
 }
+
 
 .username, .bio {
   padding-top: 20px;
