@@ -87,7 +87,7 @@ const ProfilePage = () => {
                   <h3 className='title'>{post.title || 'Untitled Post'}</h3>
                   <p className='content'>{post.content || 'No content available'}</p>
                   <span className="timestamp">
-                    {new Date(post.createdAt).toLocaleString()}
+                    {new Date(post.timestamp).toLocaleString()}
                   </span>
                 </div>
               ))}

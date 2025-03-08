@@ -88,10 +88,6 @@
   display: block; /* Ensures the span takes the full width */
 }
 
-.title-space {
-  padding-left: 50px;
-}
-
 .nameSection {
   padding-left: 10px;
 }

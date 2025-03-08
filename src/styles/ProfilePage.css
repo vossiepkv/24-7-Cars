@@ -18,7 +18,7 @@
   /* padding-left: 340px; */
   width: 100%;
   padding-bottom: 30px !important;
-  padding-left: 130px;
+  padding-left: 75px;
 }
 
 .post {
@@ -61,7 +61,3 @@ h2 {
   padding-left: 180px;
 }
 
-.title {
-  padding-left: 90px;
-  padding-right: 30px;
-}

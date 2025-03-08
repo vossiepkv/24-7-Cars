@@ -1,14 +1,16 @@
+ADD:
+
 //TODO add functionality to follow users and to see users profiles
 
 //TODO add delete and edit functionality to posts to change title and text content
 
 //TODO add like functionality and comment functionality 
 
+
+
+FIX:
+
 //TODO fix default profile picture when no profile picture is added 
-
-//TODO fix css for post titles being slsightly off center
-
-//TODO fix invalid date for posts in profile page 
 
 //TODO fix profile picture being slightly off center 
 
