@@ -45,7 +45,7 @@
 .avatar {
   width: 50px !important; /* Fixed width */
   height: 50px !important; /* Fixed height */
-  border-radius: 50%; /* Ensures images are circular */
+  border-radius: 100% !important; /* Ensures images are circular */
   object-fit: cover; /* Ensures images fit properly within the dimensions */
   display: block;
   padding-right: 10px;

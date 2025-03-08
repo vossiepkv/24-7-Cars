@@ -6,12 +6,10 @@ ADD:
 
 //TODO add like functionality and comment functionality 
 
+//TODO add success message to settings change
+
 
 
 FIX:
 
-//TODO fix default profile picture when no profile picture is added 
 
-//TODO fix profile picture being slightly off center 
-
-//TODO fix left had side posts in profile page being further left then intended

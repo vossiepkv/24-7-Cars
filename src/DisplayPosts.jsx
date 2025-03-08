@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './styles/DisplayPosts.css';
+import './styles/DisplayPosts.css'; 
+import ProfilePicture from './assets/user.png';
 
 const DisplayPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -53,40 +54,27 @@ const DisplayPosts = () => {
       ) : (
         <div className="post-container">
           {posts.length > 0 ? (
-            [...posts].reverse().map((post) => (
-              <div key={post._id} className="post">
-                <div className="userbar">
-                  <li>
-                    {post.user?.profilePicture ? (
-                      <img src={post.user.profilePicture} alt="User Avatar" className="avatar" />
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="avatar"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    )}
-                    <h3 className='nameSection'>{post.user?.name || 'Unknown User'}</h3>
-                    <span>{new Date(post.timestamp).toLocaleString()}</span>
-                  </li>
-                </div>
-                {post.mediaUrl && (
-                  <img src={post.mediaUrl} alt={post.title || 'Post Image'} />
-                )}
-                <h2 className='title-space'>{post.title || 'No Title Available'}</h2>
-                <p className='content-space'>{post.content || 'No Content Available'}</p>
-              </div>
-            ))
-          ) : (
-            <p>No posts available.</p>
-          )}
+  [...posts].reverse().map((post) => (
+    <div key={post._id} className="post">
+      <div className="userbar">
+        <li>
+          <img
+            src={post.user?.profilePicture || ProfilePicture} // Use default if no profile picture
+            alt="User Avatar"
+            className="avatar"
+          />
+          <h3 className='nameSection'>{post.user?.name || 'Unknown User'}</h3>
+          <span>{new Date(post.timestamp).toLocaleString()}</span>
+        </li>
+      </div>
+      {post.mediaUrl && <img src={post.mediaUrl} alt={post.title || 'Post Image'} />}
+      <h2 className='title-space'>{post.title || 'No Title Available'}</h2>
+      <p className='content-space'>{post.content || 'No Content Available'}</p>
+    </div>
+  ))
+) : (
+  <p>No posts available.</p>
+)}
         </div>
       )}
     </div>
