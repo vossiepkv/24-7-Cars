@@ -4,6 +4,7 @@ import './styles/ProfilePage.css';
 import NavBar from "./NavBar";
 import CreatePostForm from './CreatePostForm';
 
+
 const ProfilePage = () => {
   const [user, setUser] = useState(null); // State for user
   const [posts, setPosts] = useState([]);

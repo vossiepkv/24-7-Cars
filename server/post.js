@@ -2,7 +2,6 @@ import express from 'express';
 import upload from './upload.js'; // Ensure the correct path and '.js' extension
 import postModel from './models/Post.js'; // Ensure the correct path and '.js' extension
 
-
 const router = express.Router();
 
 // Route to create a post with media

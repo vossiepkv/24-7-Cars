@@ -37,11 +37,6 @@ app.use(cors({
 
 app.use(express.json());
 
-// Authentication Middleware (if you have it, place it here before routes)
-//const authenticationToken = require('./authentication'); // Example
-//app.use(authenticationToken);
-
-// API Routes (MUST come BEFORE serving static files)
 app.use('/api/post', postRoutes);
 app.use('/api/settingsPage', settingsPageRoutes);
 app.use('/api/signin', signinRoutes);
