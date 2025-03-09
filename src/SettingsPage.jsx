@@ -46,10 +46,50 @@ const SettingsPage = () => {
     }));
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!user) return;
+
+  //   const form = new FormData();
+  //   if (formData.name.trim()) form.append("name", formData.name);
+  //   if (formData.email.trim()) form.append("email", formData.email);
+  //   if (formData.password.trim()) form.append("password", formData.password);
+  //   if (formData.bio.trim()) form.append("bio", formData.bio);
+  //   if (formData.profilePicture)
+  //     form.append("profilePicture", formData.profilePicture);
+
+  //   try {
+  //     const response = await axios.put(
+  //       `https://two4-7-cars.onrender.com/api/settingsPage/${user._id}`,
+  //       form,
+  //       { headers: { "Content-Type": "multipart/form-data" } }
+  //     );
+
+  //     if (response.data.user == user) {
+  //       alert('No updates made to user');
+  //     } else if (response.data.user) {
+        
+  //       const updatedUser = {
+  //         ...response.data.user,
+  //         profilePicture:
+  //           response.data.user.profilePicture || user.profilePicture,
+  //       };
+
+  //       setUser(updatedUser); // Update state (will also update localStorage via useEffect)
+
+  //       alert('Updated user successfully.');
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating user:", error);
+  //     alert(`Error updating user: ${error.message}`);
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) return;
-
+  
     const form = new FormData();
     if (formData.name.trim()) form.append("name", formData.name);
     if (formData.email.trim()) form.append("email", formData.email);
@@ -57,30 +97,32 @@ const SettingsPage = () => {
     if (formData.bio.trim()) form.append("bio", formData.bio);
     if (formData.profilePicture)
       form.append("profilePicture", formData.profilePicture);
-
+  
     try {
       const response = await axios.put(
         `https://two4-7-cars.onrender.com/api/settingsPage/${user._id}`,
         form,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-
-      if (response.data.user) {
-        const updatedUser = {
+  
+      const updatedUser = {
           ...response.data.user,
           profilePicture:
-            response.data.user.profilePicture || user.profilePicture,
+          response.data.user.profilePicture || user.profilePicture,
         };
-
-        setUser(updatedUser); // Update state (will also update localStorage via useEffect)
-
-        alert('Updated user successfully.');
+  
+      if (JSON.stringify(updatedUser) === JSON.stringify(user)) {
+        alert("No updates made to user.");
+      } else if (updatedUser) {
+        setUser(updatedUser);
+        alert("Updated user successfully.");
       }
     } catch (error) {
       console.error("Error updating user:", error);
-      alert('Error updating user: ', error);
+      alert(`Error updating user: ${error.message}`);
     }
   };
+  
 
   if (loading) {
     return <div>Loading...</div>;
