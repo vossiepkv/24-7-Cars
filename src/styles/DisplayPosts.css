@@ -91,3 +91,39 @@
 .nameSection {
   padding-left: 10px;
 }
+
+/* Basic transition for the heart and car */
+.heart, .car {
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  position: absolute;
+}
+
+/* Hide the heart when liked */
+.heart-hidden {
+  opacity: 0;
+}
+
+/* Animating the car icon from its position, zooming left, and back */
+.car.zoom-left {
+  animation: zoomLeft 0.6s ease forwards, zoomBack 0.6s 0.6s ease forwards; /* Zoom left then back */
+}
+
+/* Animation to zoom left */
+@keyframes zoomLeft {
+  0% {
+    transform: translateX(0); /* Start at heart's position */
+  }
+  100% {
+    transform: translateX(-300px); /* Move left */
+  }
+}
+
+/* Animation to zoom back to the original position */
+@keyframes zoomBack {
+  0% {
+    transform: translateX(-300px); /* Start at the left position */
+  }
+  100% {
+    transform: translateX(0); /* Return to the original position */
+  }
+}
