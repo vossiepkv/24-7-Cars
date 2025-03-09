@@ -114,14 +114,14 @@
     transform: translateX(0); /* Start at heart's position */
   }
   100% {
-    transform: translateX(-300px); /* Move left */
+    transform: translateX(-200px); /* Move left */
   }
 }
 
 /* Animation to zoom back to the original position */
 @keyframes zoomBack {
   0% {
-    transform: translateX(-300px); /* Start at the left position */
+    transform: translateX(-200px); /* Start at the left position */
   }
   100% {
     transform: translateX(0); /* Return to the original position */
