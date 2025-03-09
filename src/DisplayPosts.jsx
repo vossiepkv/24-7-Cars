@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles/DisplayPosts.css'; 
-import ProfilePicture from './assets/user.png';
+import ProfilePictureDefault from './assets/user.png';
 
 const DisplayPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -59,7 +59,7 @@ const DisplayPosts = () => {
       <div className="userbar">
         <li>
           <img
-            src={post.user?.profilePicture || ProfilePicture} // Use default if no profile picture
+            src={post.user?.profilePicture || ProfilePictureDefault} // Use default if no profile picture
             alt="User Avatar"
             className="avatar"
           />

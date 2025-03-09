@@ -73,9 +73,12 @@ const SettingsPage = () => {
         };
 
         setUser(updatedUser); // Update state (will also update localStorage via useEffect)
+
+        alert('Updated user successfully.');
       }
     } catch (error) {
       console.error("Error updating user:", error);
+      alert('Error updating user: ', error);
     }
   };
 
