@@ -26,31 +26,37 @@ const DisplayPosts = () => {
     fetchPosts();
   }, []);
 
-  const LikeButton = ({ postId, userId }) => {
-    const [liked, setLiked] = useState(false);
+  const LikeButton = ({ postId, userId, initialLikes, likedByUsers }) => {
+    const [liked, setLiked] = useState(likedByUsers.includes(userId));
+    const [likeCount, setLikeCount] = useState(initialLikes);
     const [zooming, setZooming] = useState(false);
 
     const handleLike = async () => {
       setLiked(true);
       setZooming(true);
-      setTimeout(() => setZooming(false), 1200);
-    
+      setLikeCount((prev) => prev + 1);
+
       try {
         await axios.post('https://two4-7-cars.onrender.com/api/post/like', { postId, userId });
-        console.log('Liked Post');
       } catch (error) {
         console.error('Error Liking Post', error.response?.data || error.message);
+        setLiked(false);
+        setLikeCount((prev) => prev - 1);
       }
+
+      setTimeout(() => setZooming(false), 1200);
     };
-    
+
     const handleUnlike = async () => {
       setLiked(false);
-    
+      setLikeCount((prev) => prev - 1);
+
       try {
         await axios.post('https://two4-7-cars.onrender.com/api/post/unlike', { postId, userId });
-        console.log('Unliked Post');
       } catch (error) {
         console.error('Error unliking post', error.response?.data || error.message);
+        setLiked(true);
+        setLikeCount((prev) => prev + 1);
       }
     };
 
@@ -58,42 +64,27 @@ const DisplayPosts = () => {
       <div
         onClick={liked ? handleUnlike : handleLike}
         style={{
+          display: "flex",
+          alignItems: "center",
           fontSize: "2rem",
           cursor: "pointer",
-          position: "relative",
-          width: "40px",
-          height: "40px",
         }}
       >
-        {/* Heart Icon (Visible when NOT liked) */}
-        {!liked && (
+        {/* Toggle between FaHeart (not liked) and FaCar (liked) */}
+        {liked ? (
+          <FaCar
+            className={`car ${zooming ? "zoom-left" : ""}`}
+            style={{ color: "red", transition: "0.3s" }}
+          />
+        ) : (
           <FaHeart
             className="heart"
-            style={{
-              paddingTop: "5px",
-              color: "red",
-              position: "absolute",
-              transition: "opacity 0.3s ease",
-              opacity: 1,
-              zIndex: 1,
-            }}
+            style={{ color: "red", transition: "0.3s" }}
           />
         )}
 
-        {/* Car Icon (Visible when Liked) */}
-        {liked && (
-          <FaCar
-            className={`car ${zooming ? "zoom-left" : ""}`}
-            style={{
-              paddingTop: "5px",
-              color: "red",
-              position: "absolute",
-              transition: "opacity 0.3s ease",
-              opacity: 1,
-              zIndex: 1,
-            }}
-          />
-        )}
+        {/* Like count next to the icon */}
+        <span style={{ marginLeft: "10px", fontSize: "1.2rem" }}>{likeCount}</span>
       </div>
     );
   };
@@ -124,7 +115,14 @@ const DisplayPosts = () => {
                 {post.mediaUrl && (
                   <img src={post.mediaUrl} alt={post.title || 'Post Image'} />
                 )}
-                {storedUser && <LikeButton postId={post._id} userId={storedUser._id} />}
+                {storedUser && (
+                  <LikeButton 
+                    postId={post._id} 
+                    userId={storedUser._id} 
+                    initialLikes={post.likes} 
+                    likedByUsers={post.likedByUsers || []} 
+                  />
+                )}
                 <h2 className="title-space">{post.title || 'No Title Available'}</h2>
                 <p className="content-space">{post.content || 'No Content Available'}</p>
               </div>
