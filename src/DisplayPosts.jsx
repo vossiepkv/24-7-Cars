@@ -27,14 +27,13 @@ const DisplayPosts = () => {
   }, []);
 
   const LikeButton = ({ postId, userId, initialLikes, likedByUsers }) => {
-    const [liked, setLiked] = useState(likedByUsers.includes(userId)); // Sync initial state with the backend data
+    // Try to retrieve the liked status from localStorage, if available
+    const storedLikeStatus = localStorage.getItem(`liked-${postId}-${userId}`);
+    const initialLiked = storedLikeStatus ? storedLikeStatus === 'true' : likedByUsers.includes(userId);
+    
+    const [liked, setLiked] = useState(initialLiked);
     const [likeCount, setLikeCount] = useState(initialLikes);
     const [zooming, setZooming] = useState(false);
-
-    // Re-sync liked state when likedByUsers or userId changes
-    useEffect(() => {
-      setLiked(likedByUsers.includes(userId));
-    }, [likedByUsers, userId]);
 
     const handleLike = async () => {
       if (liked) return;  // Don't allow like if already liked by the user
@@ -46,6 +45,9 @@ const DisplayPosts = () => {
       try {
         // Make the like API call to update the backend
         await axios.post('https://two4-7-cars.onrender.com/api/post/like', { postId, userId });
+        
+        // Store the like status in localStorage for future sessions
+        localStorage.setItem(`liked-${postId}-${userId}`, 'true');
       } catch (error) {
         console.error('Error Liking Post', error.response?.data || error.message);
         setLiked(false); // Revert state if there's an error
@@ -64,6 +66,9 @@ const DisplayPosts = () => {
       try {
         // Make the unlike API call to update the backend
         await axios.post('https://two4-7-cars.onrender.com/api/post/unlike', { postId, userId });
+
+        // Remove the like status from localStorage
+        localStorage.removeItem(`liked-${postId}-${userId}`);
       } catch (error) {
         console.error('Error unliking post', error.response?.data || error.message);
         setLiked(true); // Revert state if there's an error
