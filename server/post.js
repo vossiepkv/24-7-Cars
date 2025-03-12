@@ -56,6 +56,10 @@ router.post('/like', async (req, res) => {
       return res.status(404).json({ error: 'Post not found' });
     }
 
+    if (!post.likedByUser) {
+      post.likedByUser = []; // Ensure likedByUser exists
+    }
+
     if (post.likedByUser.includes(userId)) {
       return res.status(400).json({ error: 'User has already liked the post' });
     }
@@ -66,9 +70,11 @@ router.post('/like', async (req, res) => {
 
     res.json({ message: 'Post Liked by user!', post });
   } catch (error) {
-    res.status(500).json({ error: 'Error Updating Likes' });
+    console.error('Error updating likes:', error);
+    res.status(500).json({ error: 'Error Updating Likes', details: error.message });
   }
 });
+
 
 // Unlike a post
 router.post('/unlike', async (req, res) => {
