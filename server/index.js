@@ -12,6 +12,8 @@ import settingsPageRoutes from './settingsPage.js';
 import signinRoutes from './Signin.js';
 import signupRoutes from './Signup.js';
 import userRoutes from './User.js';
+import likeRoutes from './post.js';
+import unlikeRoutes from './post.js';
 
 dotenv.config();
 
@@ -42,6 +44,8 @@ app.use('/api/settingsPage', settingsPageRoutes);
 app.use('/api/signin', signinRoutes);
 app.use('/api/signup', signupRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/like', likeRoutes);
+app.use('/api/unlike', unlikeRoutes);
 
 
 const mongoURI = process.env.MONGO_URI;
