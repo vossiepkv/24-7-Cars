@@ -30,24 +30,24 @@ const DisplayPosts = () => {
     const [liked, setLiked] = useState(false);
     const [zooming, setZooming] = useState(false);
 
-    const handleLike = async () => {
+    onst handleLike = async () => {
       setLiked(true);
       setZooming(true);
       setTimeout(() => setZooming(false), 1200);
-
+    
       try {
-        await axios.post('https://two4-7-cars.onrender.com/api/like', { postId, userId });
+        await axios.post('https://two4-7-cars.onrender.com/api/post/like', { postId, userId });
         console.log('Liked Post');
       } catch (error) {
         console.error('Error Liking Post', error.response?.data || error.message);
       }
     };
-
+    
     const handleUnlike = async () => {
       setLiked(false);
-
+    
       try {
-        await axios.post('https://two4-7-cars.onrender.com/api/unlike', { postId, userId });
+        await axios.post('https://two4-7-cars.onrender.com/api/post/unlike', { postId, userId });
         console.log('Unliked Post');
       } catch (error) {
         console.error('Error unliking post', error.response?.data || error.message);
