@@ -44,7 +44,7 @@ const DisplayPosts = () => {
 
       try {
         // Make the like API call to update the backend
-        await axios.post('https://two4-7-cars.onrender.com/api/post/like', { postId, userId });
+        await axios.post('https://two4-7-cars.onrender.com/api/like', { postId, userId });
         
         // Store the like status in localStorage for future sessions
         localStorage.setItem(`liked-${postId}-${userId}`, 'true');
@@ -65,7 +65,7 @@ const DisplayPosts = () => {
 
       try {
         // Make the unlike API call to update the backend
-        await axios.post('https://two4-7-cars.onrender.com/api/post/unlike', { postId, userId });
+        await axios.post('https://two4-7-cars.onrender.com/api/unlike', { postId, userId });
 
         // Remove the like status from localStorage
         localStorage.removeItem(`liked-${postId}-${userId}`);
