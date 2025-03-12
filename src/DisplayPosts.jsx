@@ -32,6 +32,9 @@ const DisplayPosts = () => {
     const [zooming, setZooming] = useState(false);
 
     const handleLike = async () => {
+      // Don't allow like if already liked by the user
+      if (liked) return;
+      
       setLiked(true);
       setZooming(true);
       setLikeCount((prev) => prev + 1);
@@ -48,6 +51,9 @@ const DisplayPosts = () => {
     };
 
     const handleUnlike = async () => {
+      // Don't allow unlike if already unliked by the user
+      if (!liked) return;
+
       setLiked(false);
       setLikeCount((prev) => prev - 1);
 
