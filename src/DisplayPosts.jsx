@@ -27,7 +27,6 @@ const DisplayPosts = () => {
   }, []);
 
   const LikeButton = ({ postId, userId, initialLikes, likedByUsers }) => {
-    // Retrieve the liked status from localStorage, if available
     const storedLikeStatus = localStorage.getItem(`liked-${postId}-${userId}`);
     const initialLiked = storedLikeStatus ? storedLikeStatus === 'true' : likedByUsers.includes(userId);
 
@@ -36,71 +35,49 @@ const DisplayPosts = () => {
     const [zooming, setZooming] = useState(false);
 
     const handleLike = async () => {
-      if (liked) return;  // Don't allow like if already liked by the user
+      if (liked) return;
 
-      setLiked(true); // Mark as liked
+      setLiked(true);
       setZooming(true);
-      setLikeCount((prev) => prev + 1); // Increment the like count
+      setLikeCount((prev) => prev + 1);
 
       try {
-        // Make the like API call to update the backend
         await axios.post('https://two4-7-cars.onrender.com/api/like', { postId, userId });
-        
-        // Store the like status in localStorage for future sessions
         localStorage.setItem(`liked-${postId}-${userId}`, 'true');
       } catch (error) {
         console.error('Error Liking Post', error.response?.data || error.message);
-        setLiked(false); // Revert state if there's an error
-        setLikeCount((prev) => prev - 1); // Decrement like count on error
+        setLiked(false);
+        setLikeCount((prev) => prev - 1);
       }
 
       setTimeout(() => setZooming(false), 1200);
     };
 
     const handleUnlike = async () => {
-      if (!liked) return; // Don't allow unlike if already unliked by the user
+      if (!liked) return;
 
-      setLiked(false); // Mark as unliked
-      setLikeCount((prev) => prev - 1); // Decrement the like count
+      setLiked(false);
+      setLikeCount((prev) => prev - 1);
 
       try {
-        // Make the unlike API call to update the backend
         await axios.post('https://two4-7-cars.onrender.com/api/unlike', { postId, userId });
-
-        // Remove the like status from localStorage
         localStorage.removeItem(`liked-${postId}-${userId}`);
       } catch (error) {
         console.error('Error unliking post', error.response?.data || error.message);
-        setLiked(true); // Revert state if there's an error
-        setLikeCount((prev) => prev + 1); // Increment like count on error
+        setLiked(true);
+        setLikeCount((prev) => prev + 1);
       }
     };
 
     return (
-      <div
-        onClick={liked ? handleUnlike : handleLike}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          fontSize: "2rem",
-          cursor: "pointer",
-        }}
-      >
-        {/* Toggle between FaHeart (not liked) and FaCar (liked) */}
+      <div onClick={liked ? handleUnlike : handleLike} style={{ display: "flex", alignItems: "center", fontSize: "2rem", cursor: "pointer" }}>
         {liked ? (
-          <FaCar
-            className={`car ${zooming ? "zoom-left" : ""}`}
-            style={{ color: "red", transition: "0.3s" }}
-          />
+          <FaCar className={`car ${zooming ? "zoom-left" : ""}`} style={{ color: "red", transition: "0.3s" }} />
         ) : (
-          <FaHeart
-            className="heart"
-            style={{ color: "red", transition: "0.3s" }}
-          />
+          <FaHeart className="heart" style={{ color: "red", transition: "0.3s" }} />
         )}
 
-        {/* Like count next to the icon */}
-        <span style={{ marginLeft: "10px", fontSize: "1.2rem", paddingLeft: "30px", }}>{likeCount}</span>
+        <span style={{ marginLeft: "10px", fontSize: "1.2rem", paddingLeft: "30px" }}>{likeCount}</span>
       </div>
     );
   };
@@ -119,11 +96,7 @@ const DisplayPosts = () => {
               <div key={post._id} className="post">
                 <div className="userbar">
                   <li>
-                    <img
-                      src={post.user?.profilePicture || ProfilePictureDefault}
-                      alt="User Avatar"
-                      className="avatar"
-                    />
+                    <img src={post.user?.profilePicture || ProfilePictureDefault} alt="User Avatar" className="avatar" />
                     <h3 className="nameSection">{post.user?.name || 'Unknown User'}</h3>
                     <span>{new Date(post.timestamp).toLocaleString()}</span>
                   </li>

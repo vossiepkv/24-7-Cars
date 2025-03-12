@@ -45,13 +45,14 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
+// Like a post
 router.post('/like', async (req, res) => {
   const { postId, userId } = req.body;
 
   console.log("Received like request with postId:", postId, "and userId:", userId);
 
   try {
-    const post = await Post.findById(postId);
+    const post = await postModel.findById(postId);
 
     // Check if post is found
     if (!post) {
@@ -72,15 +73,12 @@ router.post('/like', async (req, res) => {
   }
 });
 
-
-
-
 // Unlike a post
 router.post('/unlike', async (req, res) => {
   const { postId, userId } = req.body;
   
   try {
-    const post = await Post.findById(postId);
+    const post = await postModel.findById(postId);
     
     // Check if the user has liked the post
     if (post.likedByUsers.includes(userId)) {
@@ -94,6 +92,5 @@ router.post('/unlike', async (req, res) => {
     res.status(500).json({ message: 'Error unliking post', error });
   }
 });
-
 
 export default router;
