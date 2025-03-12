@@ -30,42 +30,42 @@ const DisplayPosts = () => {
     const [liked, setLiked] = useState(likedByUsers.includes(userId)); // Sync initial state with the backend data
     const [likeCount, setLikeCount] = useState(initialLikes);
     const [zooming, setZooming] = useState(false);
-
+  
     const handleLike = async () => {
-      // Don't allow like if already liked by the user
-      if (liked) return;
-      
-      setLiked(true);
+      if (liked) return;  // Don't allow like if already liked by the user
+  
+      setLiked(true); // Mark as liked
       setZooming(true);
-      setLikeCount((prev) => prev + 1);
-
+      setLikeCount((prev) => prev + 1); // Increment the like count
+  
       try {
+        // Make the like API call to update the backend
         await axios.post('https://two4-7-cars.onrender.com/api/post/like', { postId, userId });
       } catch (error) {
         console.error('Error Liking Post', error.response?.data || error.message);
-        setLiked(false);
-        setLikeCount((prev) => prev - 1);
+        setLiked(false); // Revert state if there's an error
+        setLikeCount((prev) => prev - 1); // Decrement like count on error
       }
-
+  
       setTimeout(() => setZooming(false), 1200);
     };
-
+  
     const handleUnlike = async () => {
-      // Don't allow unlike if already unliked by the user
-      if (!liked) return;
-
-      setLiked(false);
-      setLikeCount((prev) => prev - 1);
-
+      if (!liked) return; // Don't allow unlike if already unliked by the user
+  
+      setLiked(false); // Mark as unliked
+      setLikeCount((prev) => prev - 1); // Decrement the like count
+  
       try {
+        // Make the unlike API call to update the backend
         await axios.post('https://two4-7-cars.onrender.com/api/post/unlike', { postId, userId });
       } catch (error) {
         console.error('Error unliking post', error.response?.data || error.message);
-        setLiked(true);
-        setLikeCount((prev) => prev + 1);
+        setLiked(true); // Revert state if there's an error
+        setLikeCount((prev) => prev + 1); // Increment like count on error
       }
     };
-
+  
     return (
       <div
         onClick={liked ? handleUnlike : handleLike}
@@ -88,12 +88,13 @@ const DisplayPosts = () => {
             style={{ color: "red", transition: "0.3s" }}
           />
         )}
-
+  
         {/* Like count next to the icon */}
         <span style={{ marginLeft: "10px", fontSize: "1.2rem", paddingLeft: "30px", }}>{likeCount}</span>
       </div>
     );
   };
+  
 
   return (
     <div>

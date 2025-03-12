@@ -47,58 +47,45 @@ router.get('/:userId', async (req, res) => {
 
 // Like a post
 router.post('/like', async (req, res) => {
-  console.log('Likes endpoint hit');
   const { postId, userId } = req.body;
-
+  
   try {
-    const post = await postModel.findById(postId);
-    if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
+    const post = await Post.findById(postId);
+    
+    // Check if the user already liked the post
+    if (!post.likedByUsers.includes(userId)) {
+      post.likedByUsers.push(userId);  // Add user to likedByUsers array
+      post.likes += 1;  // Increment like count
     }
-
-    if (!post.likedByUser) {
-      post.likedByUser = []; // Ensure likedByUser exists
-    }
-
-    if (post.likedByUser.includes(userId)) {
-      return res.status(400).json({ error: 'User has already liked the post' });
-    }
-
-    post.likes += 1;
-    post.likedByUser.push(userId);
+    
     await post.save();
-
-    res.json({ message: 'Post Liked by user!', post });
+    res.status(200).json(post);
   } catch (error) {
-    console.error('Error updating likes:', error);
-    res.status(500).json({ error: 'Error Updating Likes', details: error.message });
+    res.status(500).json({ message: 'Error liking post', error });
   }
 });
+
 
 
 // Unlike a post
 router.post('/unlike', async (req, res) => {
-  console.log('Unlike Endpoint Hit');
   const { postId, userId } = req.body;
-
+  
   try {
-    const post = await postModel.findById(postId);
-    if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
+    const post = await Post.findById(postId);
+    
+    // Check if the user has liked the post
+    if (post.likedByUsers.includes(userId)) {
+      post.likedByUsers = post.likedByUsers.filter(user => user !== userId);  // Remove user from likedByUsers array
+      post.likes -= 1;  // Decrement like count
     }
-
-    if (!post.likedByUser.includes(userId)) {
-      return res.status(400).json({ error: 'User has not liked this post' });
-    }
-
-    post.likes -= 1;
-    post.likedByUser = post.likedByUser.filter(id => id !== userId);
+    
     await post.save();
-
-    res.json({ message: 'Post Unliked by user', post });
+    res.status(200).json(post);
   } catch (error) {
-    res.status(500).json({ error: 'Error Updating Likes' });
+    res.status(500).json({ message: 'Error unliking post', error });
   }
 });
+
 
 export default router;
