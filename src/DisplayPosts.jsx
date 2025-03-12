@@ -1,30 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './styles/DisplayPosts.css'; 
+import './styles/DisplayPosts.css';
 import ProfilePictureDefault from './assets/user.png';
 import { FaHeart, FaCar } from "react-icons/fa";
 
 const DisplayPosts = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const userString = localStorage.getItem('user');
+  const storedUser = userString ? JSON.parse(userString) : null;
 
   useEffect(() => {
-    const fetchUserAndPosts = async () => {
-      const userString = localStorage.getItem('user');
-      if (!userString) {
-        console.error('No user data in localStorage.');
-        setLoading(false);
-        return;
-      }
+    const fetchPosts = async () => {
       try {
-        const storedUser = JSON.parse(userString);
-        if (!storedUser._id || !storedUser.name) {
-          console.error('Invalid user data in localStorage:', storedUser);
-          setLoading(false);
-          return;
-        }
-
-        const response = await axios.get(`https://two4-7-cars.onrender.com/api/post`);
+        const response = await axios.get('https://two4-7-cars.onrender.com/api/post');
         setPosts(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -34,86 +23,80 @@ const DisplayPosts = () => {
       }
     };
 
-    fetchUserAndPosts();
+    fetchPosts();
   }, []);
 
-  const LikeButton = () => {
+  const LikeButton = ({ postId, userId }) => {
     const [liked, setLiked] = useState(false);
     const [zooming, setZooming] = useState(false);
-    const heartRef = useRef(null); // Reference to the heart icon
-    const carRef = useRef(null); // Reference to the car icon
-  
-    const handleLike = async (postId, userId) => {
-      setLiked(!liked);
-      if (!liked) {
-        setZooming(true); // Start zooming animation when the car is shown
-        setTimeout(() => {
-          setZooming(false); // Reset zooming state after the animation
-        }, 1200); // Duration of the zoom animation (left + right)
-      }
+
+    const handleLike = async () => {
+      setLiked(true);
+      setZooming(true);
+      setTimeout(() => setZooming(false), 1200);
 
       try {
-        await axios.post('https://two4-7-cars.onrender.com/api/like', {postId, userId});
+        await axios.post('https://two4-7-cars.onrender.com/api/like', { postId, userId });
         console.log('Liked Post');
       } catch (error) {
-        console.error('Error Liking Post', error.response.data);
+        console.error('Error Liking Post', error.response?.data || error.message);
       }
     };
 
-    const handleUnlike = async (postId, userId) => {
-      try{
-        await axios.post('https://two4-7-cars.onrender.com/api/unlike', {postId, userId});
+    const handleUnlike = async () => {
+      setLiked(false);
+
+      try {
+        await axios.post('https://two4-7-cars.onrender.com/api/unlike', { postId, userId });
         console.log('Unliked Post');
       } catch (error) {
-        console.error('Error unliking post', error.response.data);
+        console.error('Error unliking post', error.response?.data || error.message);
       }
-    }
-  
+    };
+
     return (
       <div
-  onClick={liked ? handleUnlike : handleLike} // Toggle between like and unlike
-  style={{
-    fontSize: "2rem",
-    cursor: "pointer",
-    position: "relative",
-    width: "40px",
-    height: "40px",
-  }}
->
-  {/* Heart Icon (Visible when NOT liked) */}
-  <FaHeart
-    ref={heartRef}
-    className={`heart ${liked ? "heart-hidden" : ""}`}
-    style={{
-      paddingTop: "5px",
-      color: "red",
-      position: "absolute",
-      transition: "opacity 0.3s ease", // Smooth transition
-      opacity: liked ? 0 : 1, // Hide when liked
-      zIndex: liked ? -1 : 1, 
-    }}
-  />
+        onClick={liked ? handleUnlike : handleLike}
+        style={{
+          fontSize: "2rem",
+          cursor: "pointer",
+          position: "relative",
+          width: "40px",
+          height: "40px",
+        }}
+      >
+        {/* Heart Icon (Visible when NOT liked) */}
+        {!liked && (
+          <FaHeart
+            className="heart"
+            style={{
+              paddingTop: "5px",
+              color: "red",
+              position: "absolute",
+              transition: "opacity 0.3s ease",
+              opacity: 1,
+              zIndex: 1,
+            }}
+          />
+        )}
 
-  {/* Car Icon (Visible when Liked) */}
-  <FaCar
-    ref={carRef}
-    className={`car ${zooming ? "zoom-left" : ""}`}
-    style={{
-      paddingTop: "5px",
-      color: "red",
-      position: "absolute",
-      transition: "opacity 0.3s ease", // Smooth transition
-      opacity: liked ? 1 : 0, // Show when liked
-      zIndex: liked ? 1 : -1, 
-    }}
-  />
-</div>
-
+        {/* Car Icon (Visible when Liked) */}
+        {liked && (
+          <FaCar
+            className={`car ${zooming ? "zoom-left" : ""}`}
+            style={{
+              paddingTop: "5px",
+              color: "red",
+              position: "absolute",
+              transition: "opacity 0.3s ease",
+              opacity: 1,
+              zIndex: 1,
+            }}
+          />
+        )}
+      </div>
     );
   };
-  
-  
-  
 
   return (
     <div>
@@ -141,7 +124,7 @@ const DisplayPosts = () => {
                 {post.mediaUrl && (
                   <img src={post.mediaUrl} alt={post.title || 'Post Image'} />
                 )}
-                <LikeButton />
+                {storedUser && <LikeButton postId={post._id} userId={storedUser._id} />}
                 <h2 className="title-space">{post.title || 'No Title Available'}</h2>
                 <p className="content-space">{post.content || 'No Content Available'}</p>
               </div>
