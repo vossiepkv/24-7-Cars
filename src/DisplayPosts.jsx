@@ -27,7 +27,7 @@ const DisplayPosts = () => {
   }, []);
 
   const LikeButton = ({ postId, userId, initialLikes, likedByUsers }) => {
-    const [liked, setLiked] = useState(likedByUsers.includes(userId));
+    const [liked, setLiked] = useState(likedByUsers.includes(userId)); // Sync initial state with the backend data
     const [likeCount, setLikeCount] = useState(initialLikes);
     const [zooming, setZooming] = useState(false);
 
@@ -84,7 +84,7 @@ const DisplayPosts = () => {
         )}
 
         {/* Like count next to the icon */}
-        <span style={{ marginLeft: "10px", fontSize: "1.2rem", paddingLeft: "30px", color: "#fff" }}>{likeCount}</span>
+        <span style={{ marginLeft: "10px", fontSize: "1.2rem" }}>{likeCount}</span>
       </div>
     );
   };
