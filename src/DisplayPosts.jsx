@@ -27,10 +27,10 @@ const DisplayPosts = () => {
   }, []);
 
   const LikeButton = ({ postId, userId, initialLikes, likedByUsers }) => {
-    // Try to retrieve the liked status from localStorage, if available
+    // Retrieve the liked status from localStorage, if available
     const storedLikeStatus = localStorage.getItem(`liked-${postId}-${userId}`);
     const initialLiked = storedLikeStatus ? storedLikeStatus === 'true' : likedByUsers.includes(userId);
-    
+
     const [liked, setLiked] = useState(initialLiked);
     const [likeCount, setLikeCount] = useState(initialLikes);
     const [zooming, setZooming] = useState(false);
