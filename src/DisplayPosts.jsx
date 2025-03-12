@@ -30,14 +30,19 @@ const DisplayPosts = () => {
     const [liked, setLiked] = useState(likedByUsers.includes(userId)); // Sync initial state with the backend data
     const [likeCount, setLikeCount] = useState(initialLikes);
     const [zooming, setZooming] = useState(false);
-  
+
+    // Re-sync liked state when likedByUsers or userId changes
+    useEffect(() => {
+      setLiked(likedByUsers.includes(userId));
+    }, [likedByUsers, userId]);
+
     const handleLike = async () => {
       if (liked) return;  // Don't allow like if already liked by the user
-  
+
       setLiked(true); // Mark as liked
       setZooming(true);
       setLikeCount((prev) => prev + 1); // Increment the like count
-  
+
       try {
         // Make the like API call to update the backend
         await axios.post('https://two4-7-cars.onrender.com/api/post/like', { postId, userId });
@@ -46,16 +51,16 @@ const DisplayPosts = () => {
         setLiked(false); // Revert state if there's an error
         setLikeCount((prev) => prev - 1); // Decrement like count on error
       }
-  
+
       setTimeout(() => setZooming(false), 1200);
     };
-  
+
     const handleUnlike = async () => {
       if (!liked) return; // Don't allow unlike if already unliked by the user
-  
+
       setLiked(false); // Mark as unliked
       setLikeCount((prev) => prev - 1); // Decrement the like count
-  
+
       try {
         // Make the unlike API call to update the backend
         await axios.post('https://two4-7-cars.onrender.com/api/post/unlike', { postId, userId });
@@ -65,7 +70,7 @@ const DisplayPosts = () => {
         setLikeCount((prev) => prev + 1); // Increment like count on error
       }
     };
-  
+
     return (
       <div
         onClick={liked ? handleUnlike : handleLike}
@@ -88,13 +93,12 @@ const DisplayPosts = () => {
             style={{ color: "red", transition: "0.3s" }}
           />
         )}
-  
+
         {/* Like count next to the icon */}
         <span style={{ marginLeft: "10px", fontSize: "1.2rem", paddingLeft: "30px", }}>{likeCount}</span>
       </div>
     );
   };
-  
 
   return (
     <div>
