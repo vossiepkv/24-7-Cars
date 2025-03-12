@@ -43,7 +43,7 @@ const DisplayPosts = () => {
     const heartRef = useRef(null); // Reference to the heart icon
     const carRef = useRef(null); // Reference to the car icon
   
-    const handleLike = () => {
+    const handleLike = async (postId, userId) => {
       setLiked(!liked);
       if (!liked) {
         setZooming(true); // Start zooming animation when the car is shown
@@ -51,43 +51,64 @@ const DisplayPosts = () => {
           setZooming(false); // Reset zooming state after the animation
         }, 1200); // Duration of the zoom animation (left + right)
       }
+
+      try {
+        await axios.post('https://two4-7-cars.onrender.com/api/like', {postId, userId});
+        console.log('Liked Post');
+      } catch (error) {
+        console.error('Error Liking Post', error.response.data);
+      }
     };
+
+    const handleUnlike = async (postId, userId) => {
+      try{
+        await axios.post('https://two4-7-cars.onrender.com/api/unlike', {postId, userId});
+        console.log('Unliked Post');
+      } catch (error) {
+        console.error('Error unliking post', error.response.data);
+      }
+    }
   
     return (
       <div
-        onClick={handleLike}
-        style={{
-          fontSize: "2rem",
-          cursor: "pointer",
-          position: "relative",
-          width: "40px",
-          height: "40px",
-        }}
-      >
-        {/* Heart Icon */}
-        <FaHeart
-          ref={heartRef}
-          className={`heart ${liked ? "heart-hidden" : ""}`}
-          style={{
-            paddingTop: "5px",
-            color: "red",
-            position: "absolute",
-            zIndex: liked ? -1 : 1, // Hide heart when liked
-          }}
-        />
-  
-        {/* Car Icon */}
-        <FaCar
-          ref={carRef}
-          className={`car ${zooming ? "zoom-left" : ""}`}
-          style={{
-            paddingTop: "5px",
-            color: "red",
-            position: "absolute",
-            zIndex: liked ? 1 : -1, // Show car when liked
-          }}
-        />
-      </div>
+  onClick={liked ? handleUnlike : handleLike} // Toggle between like and unlike
+  style={{
+    fontSize: "2rem",
+    cursor: "pointer",
+    position: "relative",
+    width: "40px",
+    height: "40px",
+  }}
+>
+  {/* Heart Icon (Visible when NOT liked) */}
+  <FaHeart
+    ref={heartRef}
+    className={`heart ${liked ? "heart-hidden" : ""}`}
+    style={{
+      paddingTop: "5px",
+      color: "red",
+      position: "absolute",
+      transition: "opacity 0.3s ease", // Smooth transition
+      opacity: liked ? 0 : 1, // Hide when liked
+      zIndex: liked ? -1 : 1, 
+    }}
+  />
+
+  {/* Car Icon (Visible when Liked) */}
+  <FaCar
+    ref={carRef}
+    className={`car ${zooming ? "zoom-left" : ""}`}
+    style={{
+      paddingTop: "5px",
+      color: "red",
+      position: "absolute",
+      transition: "opacity 0.3s ease", // Smooth transition
+      opacity: liked ? 1 : 0, // Show when liked
+      zIndex: liked ? 1 : -1, 
+    }}
+  />
+</div>
+
     );
   };
   
