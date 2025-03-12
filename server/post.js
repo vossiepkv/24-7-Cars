@@ -49,20 +49,21 @@ router.get('/:userId', async (req, res) => {
 router.post('/like', async (req, res) => {
   const { postId, userId } = req.body;
 
-  console.log("Received like request with postId:", postId, "and userId:", userId);
+  // Ensure that only the postId and userId are required
+  if (!postId || !userId) {
+    return res.status(400).json({ message: 'Missing required fields: postId or userId.' });
+  }
 
   try {
     const post = await postModel.findById(postId);
 
-    // Check if post is found
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    // Check if the user has already liked the post
     if (!post.likedByUsers.includes(userId)) {
-      post.likedByUsers.push(userId);  // Add user to likedByUsers array
-      post.likes += 1;  // Increment like count
+      post.likedByUsers.push(userId);
+      post.likes += 1;
     }
 
     await post.save();
@@ -72,6 +73,9 @@ router.post('/like', async (req, res) => {
     res.status(500).json({ message: 'Error liking post', error });
   }
 });
+
+
+
 
 // Unlike a post
 router.post('/unlike', async (req, res) => {

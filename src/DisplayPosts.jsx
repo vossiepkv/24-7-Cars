@@ -42,7 +42,14 @@ const DisplayPosts = () => {
       setLikeCount((prev) => prev + 1);
 
       try {
-        await axios.post('https://two4-7-cars.onrender.com/api/like', { postId, userId });
+        await axios.post('https://two4-7-cars.onrender.com/api/like', { 
+          postId, 
+          userId
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         localStorage.setItem(`liked-${postId}-${userId}`, 'true');
       } catch (error) {
         console.error('Error Liking Post', error.response?.data || error.message);
