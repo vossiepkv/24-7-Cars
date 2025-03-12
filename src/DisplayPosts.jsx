@@ -90,7 +90,7 @@ const DisplayPosts = () => {
         )}
 
         {/* Like count next to the icon */}
-        <span style={{ marginLeft: "10px", fontSize: "1.2rem" }}>{likeCount}</span>
+        <span style={{ marginLeft: "10px", fontSize: "1.2rem", paddingLeft: "30px", }}>{likeCount}</span>
       </div>
     );
   };
