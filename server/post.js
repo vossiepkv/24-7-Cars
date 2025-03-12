@@ -45,25 +45,33 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-// Like a post
 router.post('/like', async (req, res) => {
   const { postId, userId } = req.body;
-  
+
+  console.log("Received like request with postId:", postId, "and userId:", userId);
+
   try {
     const post = await Post.findById(postId);
-    
-    // Check if the user already liked the post
+
+    // Check if post is found
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check if the user has already liked the post
     if (!post.likedByUsers.includes(userId)) {
       post.likedByUsers.push(userId);  // Add user to likedByUsers array
       post.likes += 1;  // Increment like count
     }
-    
+
     await post.save();
     res.status(200).json(post);
   } catch (error) {
+    console.error('Error liking post:', error.message);
     res.status(500).json({ message: 'Error liking post', error });
   }
 });
+
 
 
 
