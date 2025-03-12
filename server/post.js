@@ -85,4 +85,56 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
+router.post('/like', async(req, res) => {
+console.log('Likes endpoint hit');
+
+const {postId, userId} = req.body;
+
+try {
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return res.status(404).json({error: 'Post not found'});
+  }
+
+  if (post.likedByUser.include(userId)){
+    return res.status(400).json({error: 'user has already liked the post'});
+  }
+
+  post.likes += 1;
+  post.likedByUser.push(userId);
+  await post.save();
+
+  res.json({message: 'Post Liked by user!', post});
+} catch (error) {
+  res.status(500).json({error: 'Error Updating Likes'});
+}
+});
+
+router.post('/unlike', async(res, req) => {
+  console.log('Unlike Endpoint Hit');
+
+  try{
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({error: 'post not found'});
+    }
+
+    if (!post.likedByUser(userId)) {
+      return res.status(400).json ({error: 'post already liked by user'});
+    }
+
+    post.likes -= 1;
+    post.likedByUser.pop(userId);
+    await post.save();
+
+    res.json({message: 'Post Unliked By user', post});
+  } catch (error) {
+    res.status(500).json({error: 'Error Updating Like'});
+  }
+});
+
+
+
 export default router;
