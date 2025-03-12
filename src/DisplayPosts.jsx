@@ -30,7 +30,7 @@ const DisplayPosts = () => {
     const [liked, setLiked] = useState(false);
     const [zooming, setZooming] = useState(false);
 
-    onst handleLike = async () => {
+    const handleLike = async () => {
       setLiked(true);
       setZooming(true);
       setTimeout(() => setZooming(false), 1200);
