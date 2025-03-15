@@ -27,78 +27,64 @@ const DisplayPosts = () => {
   }, []);
 
   const LikeButton = ({ postId, userId, initialLikes, likedByUsers }) => {
-    const storedLikeStatus = localStorage.getItem(`liked-${postId}-${userId}`);
-    const initialLiked = storedLikeStatus ? storedLikeStatus === 'true' : likedByUsers.includes(userId);
-
-    const [liked, setLiked] = useState(initialLiked);
+    const [liked, setLiked] = useState(likedByUsers.includes(userId));
     const [likeCount, setLikeCount] = useState(initialLikes);
     const [zooming, setZooming] = useState(false);
 
     const handleLike = async () => {
-      if (liked) return;
-    
       setLiked(true);
       setZooming(true);
       setLikeCount((prev) => prev + 1);
-    
+
       try {
-        const response = await axios.post('https://two4-7-cars.onrender.com/api/like', { 
-          postId, 
-          userId 
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-    
-        if (response.status === 200 || response.status === 201) {
-          localStorage.setItem(`liked-${postId}-${userId}`, 'true');
-        } else {
-          throw new Error('Failed to like post');
-        }
+        await axios.post('https://two4-7-cars.onrender.com/api/post/like', { postId, userId });
       } catch (error) {
         console.error('Error Liking Post', error.response?.data || error.message);
         setLiked(false);
         setLikeCount((prev) => prev - 1);
       }
-    
+
       setTimeout(() => setZooming(false), 1200);
     };
-    
+
     const handleUnlike = async () => {
-      if (!liked) return;
-    
       setLiked(false);
       setLikeCount((prev) => prev - 1);
-    
+
       try {
-        const response = await axios.post('https://two4-7-cars.onrender.com/api/unlike', { 
-          postId, 
-          userId 
-        });
-    
-        if (response.status === 200) {
-          localStorage.removeItem(`liked-${postId}-${userId}`);
-        } else {
-          throw new Error('Failed to unlike post');
-        }
+        await axios.post('https://two4-7-cars.onrender.com/api/post/unlike', { postId, userId });
       } catch (error) {
         console.error('Error unliking post', error.response?.data || error.message);
         setLiked(true);
         setLikeCount((prev) => prev + 1);
       }
     };
-    
 
     return (
-      <div onClick={liked ? handleUnlike : handleLike} style={{ display: "flex", alignItems: "center", fontSize: "2rem", cursor: "pointer" }}>
+      <div
+        onClick={liked ? handleUnlike : handleLike}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          fontSize: "2rem",
+          cursor: "pointer",
+        }}
+      >
+        {/* Toggle between FaHeart (not liked) and FaCar (liked) */}
         {liked ? (
-          <FaCar className={`car ${zooming ? "zoom-left" : ""}`} style={{ color: "red", transition: "0.3s" }} />
+          <FaCar
+            className={`car ${zooming ? "zoom-left" : ""}`}
+            style={{ color: "red", transition: "0.3s" }}
+          />
         ) : (
-          <FaHeart className="heart" style={{ color: "red", transition: "0.3s" }} />
+          <FaHeart
+            className="heart"
+            style={{ color: "red", transition: "0.3s" }}
+          />
         )}
 
-        <span style={{ marginLeft: "10px", fontSize: "1.2rem", paddingLeft: "30px" }}>{likeCount}</span>
+        {/* Like count next to the icon */}
+        <span style={{ marginLeft: "10px", fontSize: "1.2rem", paddingLeft: "50px", color: "#fff" }}>{likeCount}</span>
       </div>
     );
   };
@@ -117,7 +103,11 @@ const DisplayPosts = () => {
               <div key={post._id} className="post">
                 <div className="userbar">
                   <li>
-                    <img src={post.user?.profilePicture || ProfilePictureDefault} alt="User Avatar" className="avatar" />
+                    <img
+                      src={post.user?.profilePicture || ProfilePictureDefault}
+                      alt="User Avatar"
+                      className="avatar"
+                    />
                     <h3 className="nameSection">{post.user?.name || 'Unknown User'}</h3>
                     <span>{new Date(post.timestamp).toLocaleString()}</span>
                   </li>
