@@ -5,7 +5,7 @@ import postModel from './models/Post.js';
 const router = express.Router();
 
 // Route to create a post with media
-router.post('/', upload.single('media'), async (req, res) => {
+router.post('/post', upload.single('media'), async (req, res) => {
   console.log('Request body:', req.body);
   console.log('Request file:', req.file);
 
@@ -86,27 +86,6 @@ router.post('/unlike', async (req, res) => {
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ message: 'Error unliking post', error });
-  }
-});
-
-// Ensure this is defined *after* the like/unlike routes
-router.post('/', upload.single('media'), async (req, res) => {
-  console.log('Request body:', req.body);
-  console.log('Request file:', req.file);
-
-  const { title, content, user } = req.body;
-
-  if (!title || !content || !user) {
-    return res.status(400).json({ message: 'Missing required fields: title, content, or user.' });
-  }
-
-  try {
-    const mediaUrl = req.file ? req.file.location : null;
-    const post = await postModel.create({ title, content, user, mediaUrl });
-
-    res.status(201).json({ message: 'Post created successfully!', post });
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating post.', error: error.message });
   }
 });
 
