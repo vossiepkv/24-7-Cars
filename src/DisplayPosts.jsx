@@ -36,45 +36,59 @@ const DisplayPosts = () => {
 
     const handleLike = async () => {
       if (liked) return;
-
+    
       setLiked(true);
       setZooming(true);
       setLikeCount((prev) => prev + 1);
-
+    
       try {
-        await axios.post('https://two4-7-cars.onrender.com/api/like', { 
+        const response = await axios.post('https://two4-7-cars.onrender.com/api/like', { 
           postId, 
-          userId
+          userId 
         }, {
           headers: {
             'Content-Type': 'application/json',
           },
         });
-        localStorage.setItem(`liked-${postId}-${userId}`, 'true');
+    
+        if (response.status === 200 || response.status === 201) {
+          localStorage.setItem(`liked-${postId}-${userId}`, 'true');
+        } else {
+          throw new Error('Failed to like post');
+        }
       } catch (error) {
         console.error('Error Liking Post', error.response?.data || error.message);
         setLiked(false);
         setLikeCount((prev) => prev - 1);
       }
-
+    
       setTimeout(() => setZooming(false), 1200);
     };
-
+    
     const handleUnlike = async () => {
       if (!liked) return;
-
+    
       setLiked(false);
       setLikeCount((prev) => prev - 1);
-
+    
       try {
-        await axios.post('https://two4-7-cars.onrender.com/api/unlike', { postId, userId });
-        localStorage.removeItem(`liked-${postId}-${userId}`);
+        const response = await axios.post('https://two4-7-cars.onrender.com/api/unlike', { 
+          postId, 
+          userId 
+        });
+    
+        if (response.status === 200) {
+          localStorage.removeItem(`liked-${postId}-${userId}`);
+        } else {
+          throw new Error('Failed to unlike post');
+        }
       } catch (error) {
         console.error('Error unliking post', error.response?.data || error.message);
         setLiked(true);
         setLikeCount((prev) => prev + 1);
       }
     };
+    
 
     return (
       <div onClick={liked ? handleUnlike : handleLike} style={{ display: "flex", alignItems: "center", fontSize: "2rem", cursor: "pointer" }}>

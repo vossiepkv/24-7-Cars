@@ -25,15 +25,6 @@ router.post('/', upload.single('media'), async (req, res) => {
   }
 });
 
-// Fetch all posts
-router.get('/', async (req, res) => {
-  try {
-    const posts = await postModel.find().populate('user', 'name profilePicture'); 
-    res.status(200).json(posts);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
-  }
-});
 
 // Fetch posts by user ID
 router.get('/:userId', async (req, res) => {
@@ -47,35 +38,33 @@ router.get('/:userId', async (req, res) => {
 
 // Like a post
 router.post('/like', async (req, res) => {
+  console.log('Likes endpoint hit');
   const { postId, userId } = req.body;
 
-  // Ensure that only the postId and userId are required
   if (!postId || !userId) {
-    return res.status(400).json({ message: 'Missing required fields: postId or userId.' });
+    return res.status(400).json({ error: 'Missing postId or userId' });
   }
 
   try {
     const post = await postModel.findById(postId);
-
     if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
+      return res.status(404).json({ error: 'Post not found' });
     }
 
-    if (!post.likedByUsers.includes(userId)) {
-      post.likedByUsers.push(userId);
-      post.likes += 1;
+    if (post.likedByUsers.includes(userId.toString())) {
+      return res.status(400).json({ error: 'User has already liked the post' });
     }
 
+    post.likes += 1;
+    post.likedByUsers.push(userId.toString());
     await post.save();
-    res.status(200).json(post);
+
+    res.json({ message: 'Post Liked by user!', post });
   } catch (error) {
-    console.error('Error liking post:', error.message);
-    res.status(500).json({ message: 'Error liking post', error });
+    console.error('Error updating likes:', error);
+    res.status(500).json({ error: 'Error updating likes' });
   }
 });
-
-
-
 
 // Unlike a post
 router.post('/unlike', async (req, res) => {
@@ -84,17 +73,42 @@ router.post('/unlike', async (req, res) => {
   try {
     const post = await postModel.findById(postId);
     
-    // Check if the user has liked the post
-    if (post.likedByUsers.includes(userId)) {
-      post.likedByUsers = post.likedByUsers.filter(user => user !== userId);  // Remove user from likedByUsers array
-      post.likes -= 1;  // Decrement like count
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
     }
-    
-    await post.save();
+
+    if (post.likedByUsers.includes(userId)) {
+      post.likedByUsers = post.likedByUsers.filter(user => user !== userId);
+      post.likes -= 1;
+      await post.save();
+    }
+
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ message: 'Error unliking post', error });
   }
 });
+
+// Ensure this is defined *after* the like/unlike routes
+router.post('/', upload.single('media'), async (req, res) => {
+  console.log('Request body:', req.body);
+  console.log('Request file:', req.file);
+
+  const { title, content, user } = req.body;
+
+  if (!title || !content || !user) {
+    return res.status(400).json({ message: 'Missing required fields: title, content, or user.' });
+  }
+
+  try {
+    const mediaUrl = req.file ? req.file.location : null;
+    const post = await postModel.create({ title, content, user, mediaUrl });
+
+    res.status(201).json({ message: 'Post created successfully!', post });
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating post.', error: error.message });
+  }
+});
+
 
 export default router;
