@@ -67,6 +67,16 @@ router.post('/unlike', async (req, res) => {
   }
 });
 
+router.get('/post', async (req, res) => {
+  try {
+    const posts = await postModel.find().populate('user', 'name');
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch posts', error: error.message });
+  }
+});
+
+
 // Route to create a post with media
 router.post('/post', upload.single('media'), async (req, res) => {
   console.log('Request body:', req.body);
