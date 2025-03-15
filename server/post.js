@@ -4,28 +4,6 @@ import postModel from './models/Post.js';
 
 const router = express.Router();
 
-// Route to create a post with media
-router.post('/post', upload.single('media'), async (req, res) => {
-  console.log('Request body:', req.body);
-  console.log('Request file:', req.file);
-
-  const { title, content, user } = req.body;
-
-  if (!title || !content || !user) {
-    return res.status(400).json({ message: 'Missing required fields: title, content, or user.' });
-  }
-
-  try {
-    const mediaUrl = req.file ? req.file.location : null;
-    const post = await postModel.create({ title, content, user, mediaUrl });
-
-    res.status(201).json({ message: 'Post created successfully!', post });
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating post.', error: error.message });
-  }
-});
-
-
 // Fetch posts by user ID
 router.get('/:userId', async (req, res) => {
   try {
@@ -88,6 +66,28 @@ router.post('/unlike', async (req, res) => {
     res.status(500).json({ message: 'Error unliking post', error });
   }
 });
+
+// Route to create a post with media
+router.post('/post', upload.single('media'), async (req, res) => {
+  console.log('Request body:', req.body);
+  console.log('Request file:', req.file);
+
+  const { title, content, user } = req.body;
+
+  if (!title || !content || !user) {
+    return res.status(400).json({ message: 'Missing required fields: title, content, or user.' });
+  }
+
+  try {
+    const mediaUrl = req.file ? req.file.location : null;
+    const post = await postModel.create({ title, content, user, mediaUrl });
+
+    res.status(201).json({ message: 'Post created successfully!', post });
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating post.', error: error.message });
+  }
+});
+
 
 
 export default router;
