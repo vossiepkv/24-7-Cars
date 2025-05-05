@@ -120,7 +120,7 @@ const DisplayPosts = () => {
                     postId={post._id} 
                     userId={storedUser._id} 
                     initialLikes={post.likes} 
-                    likedByUsers={post.likedByUser || []} 
+                    likedByUser={post.likedByUser || []} 
                   />
                 )}
                 <h2 className="title-space">{post.title || 'No Title Available'}</h2>
