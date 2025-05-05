@@ -62,6 +62,7 @@ router.post('/like', async (req, res) => {
 
     if (post.likedByUser.includes(userId)) {
       return res.status(400).json({ error: 'User has already liked the post' });
+      
     }
 
     post.likes += 1;

@@ -26,8 +26,8 @@ const DisplayPosts = () => {
     fetchPosts();
   }, []);
 
-  const LikeButton = ({ postId, userId, initialLikes, likedByUsers }) => {
-    const [liked, setLiked] = useState(likedByUsers.includes(userId));
+  const LikeButton = ({ postId, userId, initialLikes, likedByUser }) => {
+    const [liked, setLiked] = useState(likedByUser.includes(userId));
     const [likeCount, setLikeCount] = useState(initialLikes);
     const [zooming, setZooming] = useState(false);
 
@@ -120,7 +120,7 @@ const DisplayPosts = () => {
                     postId={post._id} 
                     userId={storedUser._id} 
                     initialLikes={post.likes} 
-                    likedByUsers={post.likedByUsers || []} 
+                    likedByUsers={post.likedByUser || []} 
                   />
                 )}
                 <h2 className="title-space">{post.title || 'No Title Available'}</h2>
