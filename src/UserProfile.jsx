@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './NavBar';
 import './styles/ProfilePage.css';
+import ProfilePictureDefault from './assets/user.png';
 
 const UserProfile = () => {
   const { id } = useParams(); // get user ID from URL
@@ -61,7 +62,7 @@ const UserProfile = () => {
       <div className="profile-page">
         <div className="profile-header">
           <img
-            src={user.profilePicture || 'default-avatar.jpg'}
+            src={user.profilePicture || ProfilePictureDefault}
             alt={user.name || 'User'}
             className="avatarimg"
           />
