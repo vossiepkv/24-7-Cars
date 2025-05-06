@@ -28,4 +28,4 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-export default user;
+export default Router;
