@@ -76,6 +76,21 @@ const UserProfile = () => {
         </div>
 
         {/* Optional: List posts by this user if needed */}
+        <div className="user-posts">
+  <h2>{user.name}'s Posts</h2>
+  {user.posts && user.posts.length > 0 ? (
+    user.posts.map((post) => (
+      <div key={post._id} className="post">
+        <h3>{post.title}</h3>
+        <p>{post.content}</p>
+        {post.mediaUrl && <img src={post.mediaUrl} alt="Post Media" />}
+      </div>
+    ))
+  ) : (
+    <p>This user has not posted anything yet.</p>
+  )}
+</div>
+
       </div>
     </>
   );

@@ -92,6 +92,11 @@
   padding-left: 10px;
 }
 
+.name-link {
+  text-decoration: none;
+  color: #fff;
+}
+
 /* Basic transition for the heart and car */
 .heart, .car {
   transition: transform 0.6s ease, opacity 0.6s ease;
