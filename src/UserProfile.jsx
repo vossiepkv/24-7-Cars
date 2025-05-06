@@ -77,19 +77,31 @@ const UserProfile = () => {
 
         {/* Optional: List posts by this user if needed */}
         <div className="user-posts">
-  <h2>{user.name}'s Posts</h2>
+  <h2 className="head-title">{user.name}'s Posts</h2>
   {user.posts && user.posts.length > 0 ? (
-    user.posts.map((post) => (
-      <div key={post._id} className="post">
-        <h3>{post.title}</h3>
-        <p>{post.content}</p>
-        {post.mediaUrl && <img src={post.mediaUrl} alt="Post Media" />}
-      </div>
-    ))
+    <div className="posts-container">
+      {user.posts.map((post) => (
+        <div key={post._id} className="post">
+          {post.mediaUrl && (
+            <img
+              src={post.mediaUrl}
+              alt={post.title || 'Post Media'}
+              className="post-image"
+            />
+          )}
+          <h3 className="title">{post.title || 'Untitled Post'}</h3>
+          <p className="content">{post.content || 'No content available'}</p>
+          <span className="timestamp">
+            {new Date(post.timestamp).toLocaleString()}
+          </span>
+        </div>
+      ))}
+    </div>
   ) : (
     <p>This user has not posted anything yet.</p>
   )}
 </div>
+
 
       </div>
     </>
