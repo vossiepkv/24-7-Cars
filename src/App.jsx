@@ -6,6 +6,7 @@ import Home from './Home'
 import ProfilePage from "./ProfilePage";
 import SettingsPage from "./SettingsPage";
 import ProtectedRoute from "./ProtectedRoutes";
+import UserProfile from "./UserProfile";
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Navigate } from 'react-router-dom';
 
@@ -23,6 +24,7 @@ function App() {
         <Route path='/Home' element={<ProtectedRoute><Home /></ProtectedRoute>}></Route>
         <Route path='/Profile' element={<ProfilePage/>}></Route>
         <Route path='/Settings' element={<SettingsPage />}></Route>
+        <Route path="/user/:id" element={<UserProfile />} />
       </Routes>
     </BrowserRouter>
   )

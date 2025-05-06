@@ -3,6 +3,8 @@ import axios from 'axios';
 import './styles/DisplayPosts.css';
 import ProfilePictureDefault from './assets/user.png';
 import { FaHeart, FaCar } from "react-icons/fa";
+import { Link } from 'react-router-dom'; 
+
 
 const DisplayPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -108,7 +110,14 @@ const DisplayPosts = () => {
                       alt="User Avatar"
                       className="avatar"
                     />
-                    <h3 className="nameSection">{post.user?.name || 'Unknown User'}</h3>
+                    {/* <h3 className="nameSection">{post.user?.name || 'Unknown User'}</h3> */}
+
+                    <h3 className="nameSection">
+                      <Link to={`/user/${post.user._id}`} className="name-link">
+                        {post.user?.name || 'Unknown User'}
+                      </Link>
+                    </h3>
+
                     <span>{new Date(post.timestamp).toLocaleString()}</span>
                   </li>
                 </div>
