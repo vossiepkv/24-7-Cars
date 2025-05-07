@@ -15,6 +15,7 @@ import userRoutes from './User.js';
 import likeRoutes from './post.js';
 import unlikeRoutes from './post.js';
 import followRoutes from './follow.js';
+import unfollowRoutes from './follow.js';
 
 dotenv.config();
 
@@ -48,7 +49,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/like', likeRoutes);
 app.use('/api/unlike', unlikeRoutes);
 app.use('/api/user/follow', followRoutes);
-app.use('/api/user/unfollow', followRoutes);
+app.use('/api/user/unfollow', unfollowRoutes);
 
 
 const mongoURI = process.env.MONGO_URI;
