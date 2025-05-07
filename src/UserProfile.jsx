@@ -1,16 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import NavBar from "./NavBar";
 import "./styles/ProfilePage.css";
 import ProfilePictureDefault from "./assets/user.png";
 
+const easeInOutBack = (t, b, c, d, s = 1.70158) => {
+  s *= 1.525;
+  t /= d / 2;
+  if (t < 1) return (c / 2) * (t * t * ((s + 1) * t - s)) + b;
+  t -= 2;
+  return (c / 2) * (t * t * ((s + 1) * t + s) + 2) + b;
+};
+
+const animateWidth = (start, end, duration, onUpdate, onComplete) => {
+  const startTime = performance.now();
+
+  const animate = (currentTime) => {
+    const elapsed = currentTime - startTime;
+    const nextWidth = easeInOutBack(
+      Math.min(elapsed, duration),
+      start,
+      end - start,
+      duration
+    );
+
+    onUpdate(nextWidth);
+
+    if (elapsed < duration) {
+      requestAnimationFrame(animate);
+    } else {
+      onUpdate(end);
+      if (onComplete) onComplete();
+    }
+  };
+
+  requestAnimationFrame(animate);
+};
+
 const UserProfile = () => {
-  const { id } = useParams(); // get user ID from URL
+  const { id } = useParams();
   const [user, setUser] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
+  const followButtonRef = useRef(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -40,6 +74,46 @@ const UserProfile = () => {
     fetchProfile();
   }, [id]);
 
+  const animateFollow = () => {
+    const btn = followButtonRef.current;
+    if (!btn) return;
+
+    animateWidth(
+      90,
+      135,
+      600,
+      (w) => {
+        btn.style.width = `${w}px`;
+      },
+      () => {
+        btn.textContent = "Following";
+        btn.style.color = "#fff";
+        btn.style.backgroundColor = "#2EB82E";
+        btn.style.borderColor = "#2EB82E";
+      }
+    );
+  };
+
+  const animateUnfollow = () => {
+    const btn = followButtonRef.current;
+    if (!btn) return;
+
+    animateWidth(
+      135,
+      90,
+      600,
+      (w) => {
+        btn.style.width = `${w}px`;
+      },
+      () => {
+        btn.textContent = "Follow";
+        btn.style.color = "#3399FF";
+        btn.style.backgroundColor = "#ffffff";
+        btn.style.borderColor = "#3399FF";
+      }
+    );
+  };
+
   const handleFollowToggle = async () => {
     if (!loggedInUser || !user) return;
 
@@ -53,7 +127,12 @@ const UserProfile = () => {
         }
       );
 
-      // Toggle UI
+      if (isFollowing) {
+        animateUnfollow();
+      } else {
+        animateFollow();
+      }
+
       setIsFollowing(!isFollowing);
     } catch (error) {
       console.error("Follow/unfollow error:", error);
@@ -84,13 +163,28 @@ const UserProfile = () => {
           <p className="bio">Bio: {user.bio || "No bio provided."}</p>
 
           {loggedInUser && loggedInUser._id !== user._id && (
-            <button onClick={handleFollowToggle} className="follow-btn">
+            <button
+              ref={followButtonRef}
+              onClick={handleFollowToggle}
+              className="follow-button"
+              style={{
+                padding: "10px 20px",
+                border: "2px solid #3399FF",
+                backgroundColor: "#fff",
+                color: "#3399FF",
+                fontWeight: "bold",
+                borderRadius: "4px",
+                cursor: "pointer",
+                width: "90px",
+                overflow: "hidden",
+                transition: "none", // disable CSS transition so JS handles it
+              }}
+            >
               {isFollowing ? "Unfollow" : "Follow"}
             </button>
           )}
         </div>
 
-        {/* Optional: List posts by this user if needed */}
         <div className="user-posts">
           <h2 className="head-title">{user.name}'s Posts</h2>
           {user.posts && user.posts.length > 0 ? (
