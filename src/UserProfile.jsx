@@ -86,7 +86,7 @@ const UserProfile = () => {
         btn.style.width = `${w}px`;
       },
       () => {
-        btn.textContent = "Following";
+        btn.textContent = "Unfollow";
         btn.style.color = "#FF4C29";
         btn.style.backgroundColor = "#23242a";
         btn.style.borderColor = "#FF4C29";
@@ -180,7 +180,7 @@ const UserProfile = () => {
                 transition: "none", // disable CSS transition so JS handles it
               }}
             >
-              {isFollowing ? "Unfollow" : "Follow"}
+              Follow
             </button>
           )}
         </div>
