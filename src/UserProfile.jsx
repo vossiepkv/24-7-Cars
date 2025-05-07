@@ -119,7 +119,7 @@ const UserProfile = () => {
 
     try {
       const endpoint = isFollowing ? "unfollow" : "follow";
-      await axios.post(
+      const response = await axios.post(
         `https://two4-7-cars.onrender.com/api/user/${endpoint}`,
         {
           followerId: loggedInUser._id,
@@ -127,6 +127,7 @@ const UserProfile = () => {
         }
       );
 
+      // Update the UI state for follow/unfollow
       if (isFollowing) {
         animateUnfollow();
       } else {
@@ -134,6 +135,11 @@ const UserProfile = () => {
       }
 
       setIsFollowing(!isFollowing);
+
+      // Update the logged-in user’s following list in localStorage to reflect changes
+      const updatedUser = { ...loggedInUser, following: response.data.following };
+      localStorage.setItem('user', JSON.stringify(updatedUser)); // Persist changes to localStorage
+
     } catch (error) {
       console.error("Follow/unfollow error:", error);
     }
@@ -180,7 +186,7 @@ const UserProfile = () => {
                 transition: "none", // disable CSS transition so JS handles it
               }}
             >
-              Follow
+              {isFollowing ? "Unfollow" : "Follow"}
             </button>
           )}
         </div>
