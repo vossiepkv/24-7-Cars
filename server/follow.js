@@ -4,7 +4,7 @@ import UserModel from './models/User.js';
 const router = express.Router();
 
 // Follow a user
-router.post('/follow', async (req, res) => {
+router.post('api/user/follow', async (req, res) => {
   const { followerId, followingId } = req.body;
 
   if (followerId === followingId)
@@ -34,7 +34,7 @@ router.post('/follow', async (req, res) => {
 });
 
 // Unfollow a user
-router.post('/unfollow', async (req, res) => {
+router.post('api/user/unfollow', async (req, res) => {
   const { followerId, followingId } = req.body;
 
   try {
