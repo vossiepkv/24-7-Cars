@@ -169,9 +169,9 @@ const UserProfile = () => {
               className="follow-button"
               style={{
                 padding: "10px 20px",
-                border: "2px solid #3399FF",
-                backgroundColor: "#fff",
-                color: "#3399FF",
+                border: "2px solid #FF4C29",
+                backgroundColor: "#23242a",
+                color: "#FF4C29",
                 fontWeight: "bold",
                 borderRadius: "4px",
                 cursor: "pointer",
