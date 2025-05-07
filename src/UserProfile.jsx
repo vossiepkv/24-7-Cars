@@ -87,9 +87,9 @@ const UserProfile = () => {
       },
       () => {
         btn.textContent = "Following";
-        btn.style.color = "#fff";
-        btn.style.backgroundColor = "#2EB82E";
-        btn.style.borderColor = "#2EB82E";
+        btn.style.color = "#FF4C29";
+        btn.style.backgroundColor = "#23242a";
+        btn.style.borderColor = "#FF4C29";
       }
     );
   };
@@ -107,9 +107,9 @@ const UserProfile = () => {
       },
       () => {
         btn.textContent = "Follow";
-        btn.style.color = "#3399FF";
-        btn.style.backgroundColor = "#ffffff";
-        btn.style.borderColor = "#3399FF";
+        btn.style.color = "#FF4C29";
+        btn.style.backgroundColor = "#23242a";
+        btn.style.borderColor = "#FF4C29";
       }
     );
   };
