@@ -48,8 +48,8 @@ app.use('/api/signup', signupRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/like', likeRoutes);
 app.use('/api/unlike', unlikeRoutes);
-app.use('/api/user/follow', followRoutes);
-app.use('/api/user/unfollow', unfollowRoutes);
+app.use('/api/user', followRoutes);
+app.use('/api/user', unfollowRoutes);
 
 
 const mongoURI = process.env.MONGO_URI;
