@@ -54,6 +54,8 @@ const UserProfile = () => {
       const currentUser = JSON.parse(userString);
       setLoggedInUser(currentUser);
 
+      console.log(setLoggedInUser);
+
       try {
         const response = await axios.get(
           `https://two4-7-cars.onrender.com/api/user/${id}`
@@ -137,8 +139,9 @@ const UserProfile = () => {
       setIsFollowing(!isFollowing);
 
       // Update the logged-in user’s following list in localStorage to reflect changes
-      const updatedUser = { ...loggedInUser, following: response.data.following };
-      localStorage.setItem('user', JSON.stringify(updatedUser)); // Persist changes to localStorage
+      localStorage.setItem('user', JSON.stringify(response.data.updatedUser));
+      setLoggedInUser(response.data.updatedUser);
+
 
     } catch (error) {
       console.error("Follow/unfollow error:", error);

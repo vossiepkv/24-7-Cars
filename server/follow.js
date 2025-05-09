@@ -27,7 +27,10 @@ router.post('/follow', async (req, res) => {
     await following.save();
     await follower.save();
 
-    res.status(200).json({ message: "Followed successfully." });
+    res.status(200).json({ 
+      message: "Followed successfully.", 
+      updatedUser: follower
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -49,7 +52,10 @@ router.post('/unfollow', async (req, res) => {
     await following.save();
     await follower.save();
 
-    res.status(200).json({ message: "Unfollowed successfully." });
+    res.status(200).json({ 
+      message: "Unfollowed successfully.",
+      updatedUser: follower
+     });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

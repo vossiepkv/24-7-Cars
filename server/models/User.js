@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema({
   bio: { type: String, required: false },
   profilePicture: { type: String, required: false },
 
-  // 🆕 Follow system
   followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
 });
