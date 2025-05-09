@@ -62,9 +62,11 @@ const UserProfile = () => {
         );
         setUser(response.data);
 
-        const isAlreadyFollowing = currentUser.following?.some(
-          (f) => f._id === response.data._id
-        );
+        console.log("Current user's following:", currentUser.following);
+        console.log("Profile being viewed ID:", response.data._id);
+        
+
+        const isAlreadyFollowing = currentUser.following?.includes(response.data._id);
         setIsFollowing(isAlreadyFollowing);
       } catch (error) {
         console.error("Error fetching profile:", error);
