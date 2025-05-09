@@ -62,8 +62,8 @@ const UserProfile = () => {
         );
         setUser(response.data);
 
-        const isAlreadyFollowing = response.data.followers?.some(
-          (f) => f._id === currentUser._id
+        const isAlreadyFollowing = currentUser.following?.some(
+          (f) => f._id === response.data._id
         );
         setIsFollowing(isAlreadyFollowing);
       } catch (error) {
