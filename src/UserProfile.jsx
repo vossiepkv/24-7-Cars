@@ -150,7 +150,7 @@ const UserProfile = () => {
       localStorage.setItem('user', JSON.stringify(response.data.updatedUser));
       setLoggedInUser(response.data.updatedUser);
 
-
+      fetchProfile();
     } catch (error) {
       console.error("Follow/unfollow error:", error);
     }
