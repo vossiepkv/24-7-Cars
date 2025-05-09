@@ -71,21 +71,10 @@ const UserProfile = () => {
 
         if (followButtonRef.current) {
           const btn = followButtonRef.current;
-        
-          if (isAlreadyFollowing) {
-            btn.textContent = "Unfollow";
-            btn.style.width = "135px";
-            btn.style.color = "#FF4C29";
-            btn.style.backgroundColor = "#23242a";
-            btn.style.borderColor = "#FF4C29";
-          } else {
-            btn.textContent = "Follow";
-            btn.style.width = "90px";
-            btn.style.color = "#FF4C29";
-            btn.style.backgroundColor = "#23242a";
-            btn.style.borderColor = "#FF4C29";
-          }
+          const targetWidth = isAlreadyFollowing ? "135px" : "90px";
+          btn.style.width = targetWidth;
         }
+        
         
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -205,7 +194,6 @@ const UserProfile = () => {
                 fontWeight: "bold",
                 borderRadius: "4px",
                 cursor: "pointer",
-                width: "90px",
                 overflow: "hidden",
                 transition: "none", // disable CSS transition so JS handles it
               }}
