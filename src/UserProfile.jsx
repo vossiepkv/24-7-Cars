@@ -68,6 +68,25 @@ const UserProfile = () => {
 
         const isAlreadyFollowing = currentUser.following?.includes(response.data._id);
         setIsFollowing(isAlreadyFollowing);
+
+        if (followButtonRef.current) {
+          const btn = followButtonRef.current;
+        
+          if (isAlreadyFollowing) {
+            btn.textContent = "Unfollow";
+            btn.style.width = "135px";
+            btn.style.color = "#FF4C29";
+            btn.style.backgroundColor = "#23242a";
+            btn.style.borderColor = "#FF4C29";
+          } else {
+            btn.textContent = "Follow";
+            btn.style.width = "90px";
+            btn.style.color = "#FF4C29";
+            btn.style.backgroundColor = "#23242a";
+            btn.style.borderColor = "#FF4C29";
+          }
+        }
+        
       } catch (error) {
         console.error("Error fetching profile:", error);
       } finally {
