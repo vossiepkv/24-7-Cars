@@ -46,43 +46,39 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const followButtonRef = useRef(null);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const userString = localStorage.getItem("user");
-      if (!userString) return;
+ // Move fetchProfile outside useEffect
+const fetchProfile = async () => {
+  const userString = localStorage.getItem("user");
+  if (!userString) return;
 
-      const currentUser = JSON.parse(userString);
-      setLoggedInUser(currentUser)
+  const currentUser = JSON.parse(userString);
+  setLoggedInUser(currentUser);
 
-      try {
-        const response = await axios.get(
-          `https://two4-7-cars.onrender.com/api/user/${id}`
-        );
-        setUser(response.data);
+  try {
+    const response = await axios.get(
+      `https://two4-7-cars.onrender.com/api/user/${id}`
+    );
+    setUser(response.data);
 
-        console.log("Current user's following:", currentUser.following);
-        console.log("Profile being viewed ID:", response.data._id);
-        
+    const isAlreadyFollowing = currentUser.following?.includes(response.data._id);
+    setIsFollowing(isAlreadyFollowing);
 
-        const isAlreadyFollowing = currentUser.following?.includes(response.data._id);
-        setIsFollowing(isAlreadyFollowing);
+    if (followButtonRef.current) {
+      const btn = followButtonRef.current;
+      const targetWidth = isAlreadyFollowing ? "135px" : "90px";
+      btn.style.width = targetWidth;
+    }
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
-        if (followButtonRef.current) {
-          const btn = followButtonRef.current;
-          const targetWidth = isAlreadyFollowing ? "135px" : "90px";
-          btn.style.width = targetWidth;
-        }
-        
-        
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  fetchProfile();
+}, [id]);
 
-    fetchProfile();
-  }, [id]);
 
   const animateFollow = () => {
     const btn = followButtonRef.current;
@@ -178,7 +174,7 @@ const UserProfile = () => {
 
           <h1 className="username">{user.name}</h1>
           <p className="bio">Bio: {user.bio || "No bio provided."}</p>
-          <p className="follower-Count">{user.followers.length} Followers</p>
+          <p className="follower-Count">{user.followers?.length || 0} Followers</p>
           {loggedInUser && loggedInUser._id !== user._id && (
             <button
               ref={followButtonRef}
