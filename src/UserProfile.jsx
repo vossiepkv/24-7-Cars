@@ -52,9 +52,7 @@ const UserProfile = () => {
       if (!userString) return;
 
       const currentUser = JSON.parse(userString);
-      setLoggedInUser(currentUser);
-
-      console.log(setLoggedInUser);
+      setLoggedInUser(currentUser)
 
       try {
         const response = await axios.get(
@@ -180,7 +178,7 @@ const UserProfile = () => {
 
           <h1 className="username">{user.name}</h1>
           <p className="bio">Bio: {user.bio || "No bio provided."}</p>
-
+          <p className="follower-Count">{user.followers.length} Followers</p>
           {loggedInUser && loggedInUser._id !== user._id && (
             <button
               ref={followButtonRef}
