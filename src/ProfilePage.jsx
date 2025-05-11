@@ -4,6 +4,8 @@ import './styles/ProfilePage.css';
 import NavBar from "./NavBar";
 import CreatePostForm from './CreatePostForm';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null); // State for user
@@ -24,7 +26,7 @@ const ProfilePage = () => {
         const userId = storedUser._id;
   
         // Fetch updated user data
-        const userResponse = await axios.get(`https://two4-7-cars.onrender.com/api/user/${userId}`);
+        const userResponse = await axios.get(`${API_URL}/api/user/${userId}`);
         const updatedUser = userResponse.data;
   
         // Merge with stored user to keep missing fields
@@ -35,7 +37,7 @@ const ProfilePage = () => {
         localStorage.setItem('user', JSON.stringify(mergedUser));
   
         // Fetch posts
-        const postsResponse = await axios.get(`https://two4-7-cars.onrender.com/api/post/${userId}`);
+        const postsResponse = await axios.get(`${API_URL}/api/post/${userId}`);
         setPosts(Array.isArray(postsResponse.data) ? postsResponse.data : []);
       } catch (error) {
         console.error('Error fetching user or posts:', error);

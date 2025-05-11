@@ -2,6 +2,9 @@ import express from 'express';
 import UserModel from './models/User.js';
 import upload from './upload.js';
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const router = express.Router();
 

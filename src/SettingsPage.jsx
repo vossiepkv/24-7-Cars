@@ -3,6 +3,8 @@ import axios from "axios";
 import "./styles/Settings.css";
 import NavBar from "./NavBar";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const SettingsPage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -100,7 +102,7 @@ const SettingsPage = () => {
   
     try {
       const response = await axios.put(
-        `https://two4-7-cars.onrender.com/api/settingsPage/${user._id}`,
+        `${API_URL}/api/settingsPage/${user._id}`,
         form,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

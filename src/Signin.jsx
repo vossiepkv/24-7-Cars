@@ -6,6 +6,8 @@ import { setToken } from './slices/authSlice'; // Adjust the import path
 import axios from 'axios';
 import './styles/Signin.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 function Signin() {
   const [name, setName] = useState('');
@@ -27,7 +29,7 @@ function Signin() {
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const result = await axios.post('https://two4-7-cars.onrender.com/api/signin', { name, password });
+    const result = await axios.post(`${API_URL}/api/signin`, { name, password });
     console.log(result.data); // Log the response to inspect its structure
 
     if (result.data && result.data.message === "success") {

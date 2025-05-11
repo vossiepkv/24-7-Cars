@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './styles/CreatePostForm.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function CreatePostForm({ addPost, onClose }) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -37,7 +39,7 @@ function CreatePostForm({ addPost, onClose }) {
     }
   
     try {
-      const result = await axios.post('https://two4-7-cars.onrender.com/api/post', formDataToSend, {
+      const result = await axios.post(`${API_URL}/api/post`, formDataToSend, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',

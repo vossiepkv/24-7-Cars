@@ -1,6 +1,9 @@
 import express from 'express';
 import upload from './upload.js'; 
 import postModel from './models/Post.js'; 
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const router = express.Router();
 

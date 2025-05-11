@@ -5,6 +5,8 @@ import NavBar from "./NavBar";
 import "./styles/ProfilePage.css";
 import ProfilePictureDefault from "./assets/user.png";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const easeInOutBack = (t, b, c, d, s = 1.70158) => {
   s *= 1.525;
   t /= d / 2;
@@ -56,7 +58,7 @@ const fetchProfile = async () => {
 
   try {
     const response = await axios.get(
-      `https://two4-7-cars.onrender.com/api/user/${id}`
+      `${API_URL}/api/user/${id}`
     );
     setUser(response.data);
 
@@ -126,7 +128,7 @@ useEffect(() => {
     try {
       const endpoint = isFollowing ? "unfollow" : "follow";
       const response = await axios.post(
-        `https://two4-7-cars.onrender.com/api/user/${endpoint}`,
+        `${API_URL}/api/user/${endpoint}`,
         {
           followerId: loggedInUser._id,
           followingId: user._id,

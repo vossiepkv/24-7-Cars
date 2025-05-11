@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { setUser as setUserAction } from './slices/userSlice'; // Import setUser from userSlice
 import { setToken } from './slices/authSlice'; // Adjust the import path
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,7 +18,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post('https://two4-7-cars.onrender.com/api/signup', { name, email, password });
+      const result = await axios.post(`${API_URL}/api/signup`, { name, email, password });
       console.log("API Response:", result.data); // Log the full response for debugging
 
       const { user, token } = result.data; // Adjust to the new structure of the response

@@ -5,6 +5,7 @@ import ProfilePictureDefault from './assets/user.png';
 import { FaHeart, FaCar } from "react-icons/fa";
 import { Link } from 'react-router-dom'; 
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const DisplayPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -15,7 +16,7 @@ const DisplayPosts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('https://two4-7-cars.onrender.com/api/post');
+        const response = await axios.get(`${API_URL}/api/post`);
         setPosts(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -39,7 +40,7 @@ const DisplayPosts = () => {
       setLikeCount((prev) => prev + 1);
 
       try {
-        await axios.post('https://two4-7-cars.onrender.com/api/post/like', { postId, userId });
+        await axios.post(`${API_URL}/api/post/like`, { postId, userId });
       } catch (error) {
         console.error('Error Liking Post', error.response?.data || error.message);
         setLiked(false);
@@ -54,7 +55,7 @@ const DisplayPosts = () => {
       setLikeCount((prev) => prev - 1);
 
       try {
-        await axios.post('https://two4-7-cars.onrender.com/api/post/unlike', { postId, userId });
+        await axios.post(`${API_URL}/api/post/unlike`, { postId, userId });
       } catch (error) {
         console.error('Error unliking post', error.response?.data || error.message);
         setLiked(true);

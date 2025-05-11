@@ -2,6 +2,9 @@ import express from 'express';
 import UserModel from './models/User.js';
 const router = express.Router();
 import PostModel from './models/Post.js'; // make sure this is imported
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 router.get('/:id', async (req, res) => {
   const userId = req.params.id;
