@@ -29,6 +29,7 @@ function Signin() {
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
+    console.log(import.meta.env.VITE_API_URL)
     const result = await axios.post(`${API_URL}/api/signin`, { name, password });
     console.log(result.data); // Log the response to inspect its structure
 
